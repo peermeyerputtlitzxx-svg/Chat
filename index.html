@@ -38,6 +38,19 @@
       color: white;
       border: none;
       cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    .debug {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -49,34 +62,69 @@
       <input type="text" id="messageInput" placeholder="Stelle eine Frage zum UGG AI Projekt...">
       <button onclick="sendMessage()">Senden</button>
     </div>
+    <div id="debug" class="debug" style="display: none;"></div>
   </div>
 
   <script>
     const sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+    const WEBHOOK_URL = 'https://pmp74.app.n8n.cloud/webhook/chat';
+    
+    function logDebug(message) {
+      console.log('[DEBUG]', message);
+      const debugDiv = document.getElementById('debug');
+      debugDiv.style.display = 'block';
+      debugDiv.innerHTML += `<div>${new Date().toLocaleTimeString()} - ${message}</div>`;
+      const children = debugDiv.children;
+      while (children.length > 5) {
+        children[0].remove();
+      }
+    }
     
     async function sendMessage() {
       const input = document.getElementById('messageInput');
       const message = input.value.trim();
       if (!message) return;
       
-      // User-Nachricht anzeigen
       addMessage(message, 'user');
       input.value = '';
       
+      logDebug(`Sende Nachricht: "${message}"`);
+      logDebug(`SessionID: ${sessionId}`);
+      
       try {
-        const response = await fetch('https://pmp74.app.n8n.cloud/webhook/chat', {
+        logDebug('Verbinde zu Webhook...');
+        
+        const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({ 
             message: message, 
             sessionId: sessionId 
           })
         });
         
+        logDebug(`Response Status: ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
         const data = await response.json();
-        addMessage(data.reply, 'bot');
+        logDebug(`Response Data: ${JSON.stringify(data)}`);
+        
+        if (data.reply) {
+          addMessage(data.reply, 'bot');
+          logDebug('Antwort angezeigt ✓');
+        } else {
+          addMessage('⚠️ Fehler: Keine Antwort vom Server (Leere Response)', 'bot');
+          logDebug('FEHLER: Leere Response - data.reply ist undefined');
+        }
       } catch (error) {
-        addMessage('Fehler: Verbindung zum Chatbot fehlgeschlagen.', 'bot');
+        logDebug(`❌ FEHLER: ${error.message}`);
+        console.error('Vollständiger Fehler:', error);
+        addMessage(`❌ Fehler: ${error.message}`, 'bot');
       }
     }
     
@@ -89,10 +137,12 @@
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
     
-    // Enter-Taste zum Senden
     document.getElementById('messageInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
+    
+    logDebug(`Chat geladen | SessionID: ${sessionId}`);
+    logDebug(`Webhook URL: ${WEBHOOK_URL}`);
   </script>
 </body>
 </html>
