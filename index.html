@@ -3,723 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 Diktat-Champions!</title>
+    <title>🎮 Schul-Champions!</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
-
-        :root {
-            --gold:#feca57; --green:#1dd1a1; --red:#ff6b6b;
-            --purple:#667eea; --bg:#0d0d1a; --card:rgba(255,255,255,0.06);
-            --border:rgba(255,255,255,0.12);
-        }
-
+        :root{--gold:#feca57;--green:#1dd1a1;--red:#ff6b6b;--purple:#667eea;--bg:#0d0d1a;--card:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.12);}
         body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;color:white;overflow-x:hidden;}
 
-        /* ── Stars ── */
         #stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
         .star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite;opacity:0;}
-        @keyframes twinkle{0%,100%{opacity:0;transform:scale(0.5);}50%{opacity:var(--op);transform:scale(1);}}
+        @keyframes twinkle{0%,100%{opacity:0;transform:scale(.5);}50%{opacity:var(--op);transform:scale(1);}}
 
-        /* ── Screens ── */
         .screen{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:24px 16px 60px;}
-        .screen.hidden{display:none;}
+        .hidden{display:none!important;}
 
         /* ── Title ── */
-        .game-title{
-            font-family:'Fredoka One',cursive;text-align:center;font-size:2.4em;margin-bottom:4px;
-            background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#ff6b6b);
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-            background-size:300% auto;animation:rainbow 4s linear infinite;
-        }
+        .game-title{font-family:'Fredoka One',cursive;text-align:center;font-size:2.3em;margin-bottom:4px;background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300% auto;animation:rainbow 4s linear infinite;}
         @keyframes rainbow{0%{background-position:0%}100%{background-position:300%}}
-        .game-subtitle{text-align:center;font-size:0.8em;color:rgba(255,255,255,0.35);margin-bottom:24px;letter-spacing:2px;text-transform:uppercase;}
+        .subtitle{text-align:center;font-size:.8em;color:rgba(255,255,255,.35);margin-bottom:24px;letter-spacing:2px;text-transform:uppercase;}
 
-        /* ── Setup Sections ── */
-        .setup-section{
-            background:var(--card);border:2px solid var(--border);border-radius:22px;
-            padding:22px 24px;margin-bottom:20px;backdrop-filter:blur(6px);
-        }
-        .setup-section h2{
-            font-family:'Fredoka One',cursive;font-size:1.3em;margin-bottom:16px;
-            display:flex;align-items:center;gap:10px;color:var(--gold);
-        }
+        /* ── HOME ── */
+        .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px;}
+        .home-card{background:var(--card);border:2px solid var(--border);border-radius:26px;padding:34px 20px;text-align:center;cursor:pointer;transition:all .3s;backdrop-filter:blur(6px);}
+        .home-card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(0,0,0,.4);}
+        .home-card.diktat:hover{border-color:#a29bfe;box-shadow:0 14px 40px rgba(102,126,234,.3);}
+        .home-card.mathe:hover{border-color:var(--green);box-shadow:0 14px 40px rgba(29,209,161,.3);}
+        .hc-icon{font-size:3.5em;margin-bottom:12px;}
+        .hc-title{font-family:'Fredoka One',cursive;font-size:1.6em;margin-bottom:8px;}
+        .hc-desc{font-size:.85em;color:rgba(255,255,255,.5);line-height:1.5;}
 
-        /* Players setup */
-        .player-input-row{
-            display:flex;align-items:center;gap:10px;margin-bottom:10px;
-        }
-        .player-emoji{font-size:1.6em;flex-shrink:0;}
-        .player-input-row input{
-            flex:1;background:rgba(255,255,255,0.08);border:2px solid var(--border);
-            border-radius:12px;padding:10px 14px;color:white;font-family:'Nunito',sans-serif;
-            font-size:1em;font-weight:700;outline:none;transition:border-color 0.2s;
-        }
-        .player-input-row input:focus{border-color:var(--gold);}
-        .player-input-row input::placeholder{color:rgba(255,255,255,0.3);}
+        /* ── SETUP ── */
+        .setup-section{background:var(--card);border:2px solid var(--border);border-radius:22px;padding:22px 24px;margin-bottom:20px;backdrop-filter:blur(6px);}
+        .setup-section h2{font-family:'Fredoka One',cursive;font-size:1.3em;margin-bottom:16px;color:var(--gold);display:flex;align-items:center;gap:10px;}
+        .player-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+        .player-row .pemoji{font-size:1.6em;flex-shrink:0;}
+        .player-row input{flex:1;background:rgba(255,255,255,.08);border:2px solid var(--border);border-radius:12px;padding:10px 14px;color:white;font-family:'Nunito',sans-serif;font-size:1em;font-weight:700;outline:none;transition:border-color .2s;}
+        .player-row input:focus{border-color:var(--gold);}
+        .player-row input::placeholder{color:rgba(255,255,255,.3);}
+        .btn-rm{background:rgba(255,107,107,.15);border:2px solid rgba(255,107,107,.3);border-radius:10px;padding:8px 12px;color:var(--red);cursor:pointer;font-size:1.1em;transition:all .2s;flex-shrink:0;}
+        .btn-rm:hover{background:rgba(255,107,107,.3);}
+        .btn-add-p{background:rgba(29,209,161,.1);border:2px dashed rgba(29,209,161,.4);border-radius:12px;padding:10px;color:var(--green);font-family:'Nunito',sans-serif;font-size:.95em;font-weight:800;cursor:pointer;transition:all .2s;width:100%;margin-top:4px;}
+        .btn-add-p:hover{background:rgba(29,209,161,.2);}
+        .btn-add-p:disabled{opacity:.3;cursor:default;}
+        .btn-start{width:100%;padding:16px;background:linear-gradient(135deg,var(--purple),#764ba2);border:none;border-radius:18px;color:white;font-family:'Fredoka One',cursive;font-size:1.5em;cursor:pointer;transition:all .3s;box-shadow:0 6px 24px rgba(102,126,234,.4);}
+        .btn-start:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 10px 32px rgba(102,126,234,.55);}
+        .btn-start:disabled{opacity:.35;cursor:default;}
+        .btn-back{background:rgba(255,255,255,.06);border:2px solid var(--border);border-radius:12px;padding:10px 18px;color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-size:.9em;font-weight:700;cursor:pointer;transition:all .2s;margin-top:10px;width:100%;}
+        .btn-back:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8);}
 
-        .btn-remove-player{
-            background:rgba(255,107,107,0.15);border:2px solid rgba(255,107,107,0.35);
-            border-radius:10px;padding:8px 12px;color:var(--red);cursor:pointer;
-            font-size:1.1em;transition:all 0.2s;flex-shrink:0;
-        }
-        .btn-remove-player:hover{background:rgba(255,107,107,0.3);border-color:var(--red);}
+        /* ── SHARED GAME ── */
+        .progress-wrap{background:rgba(255,255,255,.07);border-radius:10px;height:9px;margin-bottom:14px;overflow:hidden;border:1px solid var(--border);}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold),#48dbfb);border-radius:10px;transition:width .6s ease;box-shadow:0 0 10px rgba(254,202,87,.5);}
+        .phase-badge{text-align:center;margin-bottom:12px;}
+        .phase-badge span{display:inline-block;padding:4px 16px;border-radius:20px;font-family:'Fredoka One',cursive;font-size:.9em;}
+        .phase-diktat{background:rgba(102,126,234,.2);color:#a29bfe;border:1px solid rgba(102,126,234,.4);}
+        .phase-mathe{background:rgba(29,209,161,.15);color:var(--green);border:1px solid rgba(29,209,161,.4);}
 
-        .btn-add-player{
-            background:rgba(29,209,161,0.12);border:2px dashed rgba(29,209,161,0.4);
-            border-radius:12px;padding:10px 18px;color:var(--green);
-            font-family:'Nunito',sans-serif;font-size:0.95em;font-weight:800;
-            cursor:pointer;transition:all 0.2s;width:100%;margin-top:4px;
-        }
-        .btn-add-player:hover{background:rgba(29,209,161,0.22);border-color:var(--green);}
-        .btn-add-player:disabled{opacity:0.35;cursor:default;}
+        .players-area{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+        .player-card{flex:1;min-width:0;background:rgba(255,255,255,.05);border:2px solid var(--border);border-radius:18px;padding:11px 8px;text-align:center;transition:all .35s;backdrop-filter:blur(6px);}
+        .player-card.active{border-color:var(--gold);background:rgba(254,202,87,.12);box-shadow:0 0 20px rgba(254,202,87,.35);transform:scale(1.04);}
+        .player-card.eliminated{border-color:var(--red);opacity:.5;}
+        .pc-em{font-size:1.3em;margin-bottom:2px;}
+        .pc-name{font-family:'Fredoka One',cursive;font-size:.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+        .pc-smiley{font-size:2em;display:block;transition:all .4s;line-height:1;}
+        .pc-smiley.shake{animation:smShake .55s ease-in-out;}
+        @keyframes smShake{0%,100%{transform:translateX(0) rotate(0);}15%{transform:translateX(-9px) rotate(-14deg);}35%{transform:translateX(9px) rotate(11deg);}55%{transform:translateX(-6px) rotate(-7deg);}75%{transform:translateX(6px) rotate(5deg);}}
+        .pc-err{font-size:.68em;color:rgba(255,255,255,.45);margin-top:3px;}
+        .pc-lives{font-size:.58em;margin-top:2px;letter-spacing:.5px;}
 
-        /* Word list setup */
-        .word-add-row{display:flex;gap:10px;margin-bottom:16px;}
-        .word-add-row input{
-            flex:1;background:rgba(255,255,255,0.08);border:2px solid var(--border);
-            border-radius:12px;padding:10px 14px;color:white;font-family:'Nunito',sans-serif;
-            font-size:1em;font-weight:700;outline:none;transition:border-color 0.2s;
-        }
-        .word-add-row input:focus{border-color:var(--gold);}
-        .word-add-row input::placeholder{color:rgba(255,255,255,0.3);}
+        .turn-ind{text-align:center;margin-bottom:12px;font-family:'Fredoka One',cursive;font-size:1.15em;color:var(--gold);animation:pulseTurn 1.5s ease-in-out infinite;}
+        @keyframes pulseTurn{0%,100%{text-shadow:0 0 6px rgba(254,202,87,.3);}50%{text-shadow:0 0 18px rgba(254,202,87,.8);}}
 
-        .btn-add-word{
-            background:linear-gradient(135deg,var(--gold),#ff9f43);
-            border:none;border-radius:12px;padding:10px 20px;
-            color:#1a1a1a;font-family:'Fredoka One',cursive;font-size:1em;
-            cursor:pointer;transition:all 0.2s;white-space:nowrap;
-            box-shadow:0 3px 14px rgba(254,202,87,0.35);
-        }
-        .btn-add-word:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(254,202,87,0.5);}
-
-        .word-list-container{
-            max-height:260px;overflow-y:auto;
-            scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;
-        }
-        .word-list-container::-webkit-scrollbar{width:5px;}
-        .word-list-container::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:3px;}
-
-        .word-chip{
-            display:flex;align-items:center;justify-content:space-between;
-            background:rgba(102,126,234,0.15);border:1px solid rgba(102,126,234,0.3);
-            border-radius:10px;padding:8px 14px;margin-bottom:7px;
-            animation:chipIn 0.25s ease-out;
-        }
-        @keyframes chipIn{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:translateX(0);}}
-        .word-chip-text{font-weight:800;font-size:0.95em;color:#a29bfe;}
-        .btn-delete-word{
-            background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.3);
-            border-radius:7px;padding:3px 8px;color:var(--red);cursor:pointer;
-            font-size:0.85em;transition:all 0.2s;flex-shrink:0;
-        }
-        .btn-delete-word:hover{background:rgba(255,107,107,0.3);border-color:var(--red);}
-
-        .word-count{font-size:0.82em;color:rgba(255,255,255,0.4);margin-bottom:10px;}
-
-        .empty-list-hint{
-            text-align:center;padding:20px;color:rgba(255,255,255,0.25);
-            font-size:0.9em;font-style:italic;
-        }
-
-        /* Start button */
-        .btn-start{
-            width:100%;padding:16px;
-            background:linear-gradient(135deg,var(--purple),#764ba2);
-            border:none;border-radius:18px;color:white;
-            font-family:'Fredoka One',cursive;font-size:1.5em;
-            cursor:pointer;transition:all 0.3s;
-            box-shadow:0 6px 24px rgba(102,126,234,0.45);
-        }
-        .btn-start:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 10px 32px rgba(102,126,234,0.6);}
-        .btn-start:disabled{opacity:0.35;cursor:default;transform:none;}
-
-        /* ── GAME SCREEN ── */
-
-        /* Progress */
-        .progress-wrap{background:rgba(255,255,255,0.07);border-radius:10px;height:9px;margin-bottom:16px;overflow:hidden;border:1px solid var(--border);}
-        .progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold),#48dbfb);border-radius:10px;transition:width 0.6s ease;box-shadow:0 0 10px rgba(254,202,87,0.5);}
-
-        /* Mode indicator */
-        .mode-indicator{
-            text-align:center;margin-bottom:14px;
-            font-family:'Fredoka One',cursive;font-size:0.95em;
-            color:rgba(255,255,255,0.45);letter-spacing:1px;
-        }
-        .mode-badge{
-            display:inline-block;padding:4px 14px;border-radius:20px;font-size:0.9em;
-        }
-        .mode-badge.choice{background:rgba(102,126,234,0.2);color:#a29bfe;border:1px solid rgba(102,126,234,0.4);}
-        .mode-badge.yesno{background:rgba(254,202,87,0.15);color:var(--gold);border:1px solid rgba(254,202,87,0.4);}
-
-        /* Player cards */
-        .players-area{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
-        .player-card{
-            flex:1;min-width:0;
-            background:rgba(255,255,255,0.05);border:2px solid var(--border);
-            border-radius:18px;padding:12px 10px;text-align:center;
-            transition:all 0.35s;backdrop-filter:blur(6px);
-        }
-        .player-card.active{
-            border-color:var(--gold);background:rgba(254,202,87,0.12);
-            box-shadow:0 0 22px rgba(254,202,87,0.35),inset 0 0 16px rgba(254,202,87,0.06);
-            transform:scale(1.04);
-        }
-        .player-card.eliminated{border-color:var(--red);background:rgba(255,107,107,0.07);opacity:0.5;}
-
-        .pc-emoji{font-size:1.4em;margin-bottom:2px;}
-        .pc-name{font-family:'Fredoka One',cursive;font-size:1em;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-        .pc-smiley{font-size:2.2em;display:block;transition:all 0.4s;line-height:1;}
-        .pc-smiley.shake{animation:smileyShake 0.55s ease-in-out;}
-        @keyframes smileyShake{
-            0%,100%{transform:translateX(0) rotate(0);}
-            15%{transform:translateX(-9px) rotate(-14deg);}
-            35%{transform:translateX(9px) rotate(11deg);}
-            55%{transform:translateX(-6px) rotate(-7deg);}
-            75%{transform:translateX(6px) rotate(5deg);}
-        }
-        .pc-errors{font-size:0.7em;color:rgba(255,255,255,0.45);margin-top:3px;}
-        .pc-lives{font-size:0.6em;margin-top:3px;letter-spacing:1px;}
-
-        /* Turn indicator */
-        .turn-indicator{
-            text-align:center;margin-bottom:14px;
-            font-family:'Fredoka One',cursive;font-size:1.2em;color:var(--gold);
-            animation:pulseTurn 1.5s ease-in-out infinite;
-        }
-        @keyframes pulseTurn{0%,100%{text-shadow:0 0 8px rgba(254,202,87,0.3);}50%{text-shadow:0 0 20px rgba(254,202,87,0.8);}}
-
-        /* Moderator */
-        .moderator-area{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:18px;padding:12px 16px;margin-bottom:14px;min-height:68px;}
+        .mod-area{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:18px;padding:12px 16px;margin-bottom:14px;min-height:66px;}
         .mod-icon{font-size:2.2em;flex-shrink:0;animation:modBob 2.5s ease-in-out infinite;}
-        @keyframes modBob{0%,100%{transform:translateY(0) rotate(0);}33%{transform:translateY(-5px) rotate(-5deg);}66%{transform:translateY(-2px) rotate(4deg);}}
-        .mod-text{font-size:0.93em;font-weight:700;line-height:1.45;flex:1;color:rgba(255,255,255,0.9);}
-        .mod-text.correct-msg{color:var(--green);}
-        .mod-text.wrong-msg{color:var(--red);}
+        @keyframes modBob{0%,100%{transform:translateY(0);}33%{transform:translateY(-5px) rotate(-5deg);}66%{transform:translateY(-2px) rotate(4deg);}}
+        .mod-text{font-size:.93em;font-weight:700;line-height:1.45;flex:1;}
+        .mod-text.ok{color:var(--green);}
+        .mod-text.fail{color:var(--red);}
 
-        /* Question card */
-        .question-card{background:var(--card);border:2px solid var(--border);border-radius:22px;padding:20px 24px;margin-bottom:14px;backdrop-filter:blur(4px);}
-        .q-meta{font-size:0.78em;color:rgba(255,255,255,0.35);margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-        .q-tag{background:rgba(102,126,234,0.2);border:1px solid rgba(102,126,234,0.35);padding:2px 10px;border-radius:20px;font-size:0.85em;color:#a29bfe;}
-        .question-text{font-size:1.18em;line-height:2;font-weight:700;}
+        /* ── DIKTAT ── */
+        .q-card{background:var(--card);border:2px solid var(--border);border-radius:22px;padding:20px 22px;margin-bottom:14px;backdrop-filter:blur(4px);}
+        .q-meta{font-size:.78em;color:rgba(255,255,255,.35);margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+        .q-tag{background:rgba(102,126,234,.2);border:1px solid rgba(102,126,234,.35);padding:2px 10px;border-radius:20px;font-size:.85em;color:#a29bfe;}
+        .q-text{font-size:1.18em;line-height:2.1;font-weight:700;}
+        .blank{display:inline-block;background:rgba(254,202,87,.1);border:2px dashed rgba(254,202,87,.55);border-radius:10px;padding:2px 12px;margin:0 3px;color:rgba(254,202,87,.7);font-style:italic;min-width:60px;text-align:center;transition:all .3s;}
+        .blank.ok{background:rgba(29,209,161,.2);border-color:var(--green);border-style:solid;color:var(--green);font-style:normal;animation:fillPop .35s ease-out;}
+        .blank.fail{background:rgba(255,107,107,.2);border-color:var(--red);border-style:solid;color:var(--red);font-style:normal;}
+        @keyframes fillPop{0%{transform:scale(.8);}55%{transform:scale(1.12);}100%{transform:scale(1);}}
+        .shown-word{display:inline-block;background:rgba(254,202,87,.15);border:2px solid var(--gold);border-radius:12px;padding:3px 13px;margin:0 3px;color:var(--gold);font-size:1.1em;font-weight:900;animation:wGlow 2s ease-in-out infinite;}
+        @keyframes wGlow{0%,100%{box-shadow:0 0 5px rgba(254,202,87,.3);}50%{box-shadow:0 0 16px rgba(254,202,87,.7);}}
+        .shown-word.rev-ok{background:rgba(29,209,161,.2);border-color:var(--green);color:var(--green);animation:none;}
+        .shown-word.rev-fail{background:rgba(255,107,107,.2);border-color:var(--red);color:var(--red);text-decoration:line-through;animation:none;}
+        .correct-reveal{display:none;margin-top:10px;font-size:.93em;color:var(--green);font-weight:800;}
+        .correct-reveal .cw{background:rgba(29,209,161,.18);border:2px solid var(--green);border-radius:8px;padding:1px 11px;margin-left:5px;}
 
-        .blank-slot{display:inline-block;background:rgba(254,202,87,0.1);border:2px dashed rgba(254,202,87,0.55);border-radius:10px;padding:2px 14px;margin:0 4px;color:rgba(254,202,87,0.7);font-style:italic;min-width:70px;text-align:center;transition:all 0.3s;}
-        .blank-slot.filled-ok{background:rgba(29,209,161,0.2);border-color:var(--green);border-style:solid;color:var(--green);font-style:normal;animation:fillPop 0.35s ease-out;}
-        .blank-slot.filled-fail{background:rgba(255,107,107,0.2);border-color:var(--red);border-style:solid;color:var(--red);font-style:normal;}
-        @keyframes fillPop{0%{transform:scale(0.8);}55%{transform:scale(1.12);}100%{transform:scale(1);}}
-
-        /* Shown word (yes/no mode) */
-        .shown-word{
-            display:inline-block;background:rgba(254,202,87,0.15);
-            border:2px solid var(--gold);border-radius:12px;
-            padding:3px 14px;margin:0 4px;color:var(--gold);
-            font-size:1.1em;font-weight:900;
-            animation:wordGlow 2s ease-in-out infinite;cursor:default;
-        }
-        @keyframes wordGlow{0%,100%{box-shadow:0 0 6px rgba(254,202,87,0.3);}50%{box-shadow:0 0 18px rgba(254,202,87,0.7);}}
-        .shown-word.reveal-ok{background:rgba(29,209,161,0.2);border-color:var(--green);color:var(--green);animation:none;}
-        .shown-word.reveal-fail{background:rgba(255,107,107,0.2);border-color:var(--red);color:var(--red);text-decoration:line-through;animation:none;}
-
-        .correct-reveal{display:none;margin-top:10px;font-size:0.95em;color:var(--green);font-weight:800;}
-        .correct-reveal .cw{background:rgba(29,209,161,0.18);border:2px solid var(--green);border-radius:8px;padding:1px 12px;margin-left:6px;font-size:1.05em;}
-
-        /* Choice buttons */
-        .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-        .opt-btn{
-            background:rgba(255,255,255,0.07);border:2px solid var(--border);
-            border-radius:14px;padding:14px 14px;color:white;
-            font-family:'Nunito',sans-serif;font-size:1.05em;font-weight:800;
-            cursor:pointer;transition:all 0.2s;text-align:center;line-height:1.3;word-break:break-word;
-        }
-        .opt-btn:hover:not(:disabled){background:rgba(254,202,87,0.15);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 6px 16px rgba(254,202,87,0.25);}
+        .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+        .opt-btn{background:rgba(255,255,255,.07);border:2px solid var(--border);border-radius:14px;padding:14px 12px;color:white;font-family:'Nunito',sans-serif;font-size:1.05em;font-weight:800;cursor:pointer;transition:all .2s;text-align:center;word-break:break-word;}
+        .opt-btn:hover:not(:disabled){background:rgba(254,202,87,.15);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 6px 14px rgba(254,202,87,.25);}
         .opt-btn:disabled{cursor:default;}
-        .opt-btn.is-correct{background:rgba(29,209,161,0.3);border-color:var(--green);color:var(--green);animation:correctPulse 0.45s ease-out;}
-        .opt-btn.is-wrong{background:rgba(255,107,107,0.3);border-color:var(--red);color:var(--red);animation:wrongWiggle 0.45s ease-out;}
-        .opt-btn.is-reveal{background:rgba(29,209,161,0.15);border-color:rgba(29,209,161,0.45);color:var(--green);}
-        @keyframes correctPulse{0%{transform:scale(1);}45%{transform:scale(1.08);box-shadow:0 0 30px var(--green);}100%{transform:scale(1);}}
-        @keyframes wrongWiggle{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+        .opt-btn.is-ok{background:rgba(29,209,161,.3);border-color:var(--green);color:var(--green);animation:cPulse .45s ease-out;}
+        .opt-btn.is-fail{background:rgba(255,107,107,.3);border-color:var(--red);color:var(--red);animation:wWiggle .45s ease-out;}
+        .opt-btn.is-rev{background:rgba(29,209,161,.15);border-color:rgba(29,209,161,.45);color:var(--green);}
+        @keyframes cPulse{0%{transform:scale(1);}45%{transform:scale(1.08);box-shadow:0 0 28px var(--green);}100%{transform:scale(1);}}
+        @keyframes wWiggle{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 
-        /* Yes/No buttons */
         .judge-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-        .judge-btn{
-            padding:18px 14px;border:3px solid transparent;border-radius:16px;
-            color:white;font-family:'Nunito',sans-serif;font-size:1.1em;font-weight:900;
-            cursor:pointer;transition:all 0.22s;text-align:center;
-        }
-        .judge-btn.yes-btn{background:rgba(29,209,161,0.12);border-color:rgba(29,209,161,0.45);}
-        .judge-btn.yes-btn:hover:not(:disabled){background:rgba(29,209,161,0.28);border-color:var(--green);transform:translateY(-4px);box-shadow:0 8px 22px rgba(29,209,161,0.38);}
-        .judge-btn.no-btn{background:rgba(255,107,107,0.12);border-color:rgba(255,107,107,0.45);}
-        .judge-btn.no-btn:hover:not(:disabled){background:rgba(255,107,107,0.28);border-color:var(--red);transform:translateY(-4px);box-shadow:0 8px 22px rgba(255,107,107,0.38);}
-        .judge-btn.chosen-correct{background:rgba(29,209,161,0.38);border-color:var(--green);box-shadow:0 0 24px rgba(29,209,161,0.5);animation:correctPulse 0.45s ease-out;}
-        .judge-btn.chosen-wrong{background:rgba(255,107,107,0.38);border-color:var(--red);animation:wrongWiggle 0.45s ease-out;}
-        .judge-btn:disabled{cursor:default;opacity:0.65;}
+        .jbtn{padding:17px 12px;border:3px solid transparent;border-radius:16px;color:white;font-family:'Nunito',sans-serif;font-size:1.05em;font-weight:900;cursor:pointer;transition:all .22s;text-align:center;}
+        .jbtn.yes{background:rgba(29,209,161,.12);border-color:rgba(29,209,161,.45);}
+        .jbtn.yes:hover:not(:disabled){background:rgba(29,209,161,.28);border-color:var(--green);transform:translateY(-4px);box-shadow:0 8px 20px rgba(29,209,161,.35);}
+        .jbtn.no{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.45);}
+        .jbtn.no:hover:not(:disabled){background:rgba(255,107,107,.28);border-color:var(--red);transform:translateY(-4px);box-shadow:0 8px 20px rgba(255,107,107,.35);}
+        .jbtn.j-ok{background:rgba(29,209,161,.38);border-color:var(--green);animation:cPulse .45s ease-out;}
+        .jbtn.j-fail{background:rgba(255,107,107,.38);border-color:var(--red);animation:wWiggle .45s ease-out;}
+        .jbtn:disabled{cursor:default;opacity:.65;}
 
-        /* Next / Back buttons */
-        .btn-next{
-            width:100%;padding:13px;background:linear-gradient(135deg,var(--purple),#764ba2);
-            border:none;border-radius:14px;color:white;font-family:'Fredoka One',cursive;
-            font-size:1.2em;cursor:pointer;transition:all 0.3s;display:none;
-            box-shadow:0 4px 16px rgba(102,126,234,0.4);margin-bottom:10px;
-        }
-        .btn-next:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(102,126,234,0.55);}
-        .btn-back-setup{
-            width:100%;padding:10px;background:rgba(255,255,255,0.06);
-            border:2px solid var(--border);border-radius:12px;color:rgba(255,255,255,0.5);
-            font-family:'Nunito',sans-serif;font-size:0.9em;font-weight:700;
-            cursor:pointer;transition:all 0.2s;
-        }
-        .btn-back-setup:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);}
+        /* ── MATHE ── */
+        .mathe-equation{text-align:center;margin-bottom:20px;padding:22px;background:var(--card);border:2px solid var(--border);border-radius:22px;}
+        .eq-phase{font-size:.8em;color:rgba(255,255,255,.4);margin-bottom:8px;letter-spacing:1px;}
+        .eq-numbers{font-family:'Fredoka One',cursive;font-size:2.8em;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+        .eq-factor{color:white;}
+        .eq-op{color:rgba(255,255,255,.4);}
+        .eq-eq{color:rgba(255,255,255,.4);}
+        .eq-input-wrap{display:inline-flex;align-items:center;}
+        #matheInput{background:rgba(254,202,87,.12);border:3px solid var(--gold);border-radius:14px;padding:6px 16px;color:var(--gold);font-family:'Fredoka One',cursive;font-size:.85em;width:110px;text-align:center;outline:none;-moz-appearance:textfield;}
+        #matheInput::-webkit-outer-spin-button,#matheInput::-webkit-inner-spin-button{-webkit-appearance:none;}
+        #matheInput::placeholder{color:rgba(254,202,87,.4);}
+        #matheInput.correct{border-color:var(--green);color:var(--green);background:rgba(29,209,161,.15);}
+        #matheInput.wrong{border-color:var(--red);color:var(--red);background:rgba(255,107,107,.15);}
+        .mathe-result-reveal{font-size:.95em;color:var(--green);font-weight:800;margin-top:10px;display:none;}
 
-        /* Flash */
+        .numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:260px;margin:0 auto 14px;}
+        .np-btn{background:rgba(255,255,255,.08);border:2px solid var(--border);border-radius:14px;padding:14px 10px;color:white;font-family:'Fredoka One',cursive;font-size:1.4em;cursor:pointer;transition:all .18s;text-align:center;}
+        .np-btn:hover{background:rgba(254,202,87,.15);border-color:var(--gold);transform:scale(1.06);}
+        .np-btn:active{transform:scale(.96);}
+        .np-btn.del{color:var(--red);font-size:1.1em;}
+        .np-btn.ok{background:rgba(29,209,161,.18);border-color:rgba(29,209,161,.5);color:var(--green);}
+        .np-btn.ok:hover{background:rgba(29,209,161,.35);border-color:var(--green);}
+
+        /* ── SHARED BUTTONS ── */
+        .btn-next{width:100%;padding:13px;background:linear-gradient(135deg,var(--purple),#764ba2);border:none;border-radius:14px;color:white;font-family:'Fredoka One',cursive;font-size:1.2em;cursor:pointer;transition:all .3s;display:none;box-shadow:0 4px 16px rgba(102,126,234,.4);margin-bottom:10px;}
+        .btn-next:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(102,126,234,.55);}
+        .btn-to-setup{width:100%;padding:9px;background:rgba(255,255,255,.05);border:2px solid var(--border);border-radius:12px;color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;transition:all .2s;}
+        .btn-to-setup:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.75);}
+
+        /* ── FLASH ── */
         .flash-overlay{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:900;}
-        .flash-msg{font-family:'Fredoka One',cursive;font-size:3.5em;padding:16px 40px;border-radius:26px;opacity:0;transform:scale(0.3);transition:all 0.22s cubic-bezier(.175,.885,.32,1.275);}
+        .flash-msg{font-family:'Fredoka One',cursive;font-size:3.5em;padding:16px 38px;border-radius:26px;opacity:0;transform:scale(.3);transition:all .22s cubic-bezier(.175,.885,.32,1.275);}
         .flash-msg.show{opacity:1;transform:scale(1);}
-        .flash-msg.correct-flash{background:rgba(29,209,161,0.92);box-shadow:0 0 55px rgba(29,209,161,0.7);}
-        .flash-msg.wrong-flash{background:rgba(255,107,107,0.92);box-shadow:0 0 55px rgba(255,107,107,0.7);}
+        .flash-msg.cf{background:rgba(29,209,161,.92);box-shadow:0 0 55px rgba(29,209,161,.7);}
+        .flash-msg.wf{background:rgba(255,107,107,.92);box-shadow:0 0 55px rgba(255,107,107,.7);}
 
-        /* Confetti */
+        /* ── CONFETTI ── */
         #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:800;}
-        .conf-piece{position:absolute;font-size:1.5em;animation:confFall var(--dur) ease-in forwards;top:-60px;}
-        @keyframes confFall{0%{transform:translateY(0) rotate(0);opacity:1;}80%{opacity:1;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
+        .cp{position:absolute;font-size:1.5em;animation:cfall var(--dur) ease-in forwards;top:-60px;}
+        @keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1;}80%{opacity:1;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
 
-        /* Game over */
-        .game-over{
-            display:none;text-align:center;background:rgba(255,255,255,0.04);
-            border:2px solid var(--border);border-radius:28px;padding:36px 24px;margin-top:10px;
-        }
+        /* ── GAME OVER ── */
+        .game-over{display:none;text-align:center;background:rgba(255,255,255,.04);border:2px solid var(--border);border-radius:28px;padding:36px 22px;margin-top:10px;}
         .go-emoji{font-size:4.5em;display:block;margin-bottom:12px;animation:goSpin 1s cubic-bezier(.175,.885,.32,1.275);}
         @keyframes goSpin{0%{transform:scale(0) rotate(-180deg);}100%{transform:scale(1) rotate(0deg);}}
-        .go-title{font-family:'Fredoka One',cursive;font-size:2.1em;margin-bottom:8px;}
-        .go-text{font-size:1em;color:rgba(255,255,255,0.72);margin-bottom:18px;line-height:1.7;}
-        .go-scores{display:flex;justify-content:center;gap:12px;margin-bottom:22px;flex-wrap:wrap;}
-        .go-score-item{background:rgba(255,255,255,0.07);border-radius:14px;padding:11px 18px;font-size:0.95em;font-weight:800;}
-        .btn-restart{
-            background:linear-gradient(135deg,var(--red),var(--gold));
-            border:none;border-radius:18px;padding:12px 38px;color:white;
-            font-family:'Fredoka One',cursive;font-size:1.4em;cursor:pointer;
-            transition:all 0.3s;box-shadow:0 6px 22px rgba(255,107,107,0.4);margin-right:10px;
-        }
-        .btn-restart:hover{transform:scale(1.07) translateY(-3px);box-shadow:0 12px 30px rgba(255,107,107,0.55);}
-        .btn-go-setup{
-            background:rgba(255,255,255,0.08);border:2px solid var(--border);
-            border-radius:18px;padding:12px 28px;color:rgba(255,255,255,0.7);
-            font-family:'Fredoka One',cursive;font-size:1.2em;cursor:pointer;transition:all 0.2s;
-        }
-        .btn-go-setup:hover{border-color:rgba(255,255,255,0.4);color:white;}
+        .go-title{font-family:'Fredoka One',cursive;font-size:2em;margin-bottom:8px;}
+        .go-text{font-size:1em;color:rgba(255,255,255,.7);margin-bottom:18px;line-height:1.7;}
+        .go-scores{display:flex;justify-content:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+        .go-score{background:rgba(255,255,255,.07);border-radius:14px;padding:10px 16px;font-size:.93em;font-weight:800;}
+        .btn-again{background:linear-gradient(135deg,var(--red),var(--gold));border:none;border-radius:18px;padding:12px 35px;color:white;font-family:'Fredoka One',cursive;font-size:1.35em;cursor:pointer;transition:all .3s;box-shadow:0 6px 22px rgba(255,107,107,.4);margin-right:8px;}
+        .btn-again:hover{transform:scale(1.07) translateY(-3px);}
+        .btn-home2{background:rgba(255,255,255,.08);border:2px solid var(--border);border-radius:18px;padding:12px 24px;color:rgba(255,255,255,.7);font-family:'Fredoka One',cursive;font-size:1.15em;cursor:pointer;transition:all .2s;}
+        .btn-home2:hover{border-color:rgba(255,255,255,.4);color:white;}
 
-        @media(max-width:560px){
-            .game-title{font-size:1.85em;}
-            .question-text{font-size:1.02em;}
-            .opt-btn{font-size:0.92em;padding:11px 9px;}
-            .flash-msg{font-size:2.3em;padding:13px 26px;}
-            .options-grid{grid-template-columns:1fr;}
+        @media(max-width:540px){
+            .home-cards{grid-template-columns:1fr;}
+            .opts{grid-template-columns:1fr;}
             .judge-area{grid-template-columns:1fr;}
+            .eq-numbers{font-size:2em;}
+            .flash-msg{font-size:2.3em;padding:13px 24px;}
         }
     </style>
 </head>
 <body>
-
 <div id="stars"></div>
 <div id="confetti"></div>
-<div class="flash-overlay">
-    <div class="flash-msg" id="flashMsg"></div>
+<div class="flash-overlay"><div class="flash-msg" id="flashMsg"></div></div>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="screen" id="homeScreen">
+    <h1 class="game-title">🎮 Schul-Champions!</h1>
+    <p class="subtitle">Wähle dein Spiel</p>
+    <div class="home-cards">
+        <div class="home-card diktat" onclick="selectGame('diktat')">
+            <div class="hc-icon">📝</div>
+            <div class="hc-title">Diktat-Champion</div>
+            <div class="hc-desc">Rechtschreibung &amp; Groß-/Kleinschreibung<br>für die 3. Klasse</div>
+        </div>
+        <div class="home-card mathe" onclick="selectGame('mathe')">
+            <div class="hc-icon">🔢</div>
+            <div class="hc-title">Mathe-Champion</div>
+            <div class="hc-desc">Kleines 1×1<br>Reihen 2–10</div>
+        </div>
+    </div>
 </div>
 
-<!-- ══════════════════ SETUP SCREEN ══════════════════ -->
-<div class="screen" id="setupScreen">
-
-    <h1 class="game-title">🎮 Diktat-Champions!</h1>
-    <p class="game-subtitle">Gamemaster Setup</p>
-
-    <!-- Players -->
+<!-- ═══════════ SETUP ═══════════ -->
+<div class="screen hidden" id="setupScreen">
+    <h1 class="game-title" id="setupTitle">📝 Diktat-Champion</h1>
+    <p class="subtitle">Gamemaster Setup</p>
     <div class="setup-section">
-        <h2>👥 Spieler <span style="font-size:0.65em;color:rgba(255,255,255,0.4);font-family:'Nunito',sans-serif;font-weight:700">(1–4)</span></h2>
+        <h2>👥 Spieler <span style="font-size:.65em;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;">(1–4)</span></h2>
         <div id="playerInputs"></div>
-        <button class="btn-add-player" id="btnAddPlayer" onclick="addPlayerInput()">
-            ＋ Spieler hinzufügen
-        </button>
+        <button class="btn-add-p" id="btnAddP" onclick="addPlayer()">＋ Spieler hinzufügen</button>
     </div>
-
-    <!-- Words -->
-    <div class="setup-section">
-        <h2>📝 Lernwörter</h2>
-        <div class="word-add-row">
-            <input type="text" id="wordInput" placeholder="Lernwort eingeben..." onkeydown="if(event.key==='Enter')addWord()">
-            <button class="btn-add-word" onclick="addWord()">＋ Hinzufügen</button>
-        </div>
-        <div class="word-count" id="wordCount">0 Wörter</div>
-        <div class="word-list-container" id="wordListContainer">
-            <div class="empty-list-hint" id="emptyHint">Noch keine Wörter – einfach oben eintragen! ✏️</div>
-        </div>
-    </div>
-
-    <button class="btn-start" id="btnStart" onclick="startGame()" disabled>
-        🎮 Spiel starten!
-    </button>
+    <button class="btn-start" id="btnStart" onclick="startGame()" disabled>🎮 Spiel starten!</button>
+    <button class="btn-back" onclick="goHome()">↩ Zurück zur Spielauswahl</button>
 </div>
 
-<!-- ══════════════════ GAME SCREEN ══════════════════ -->
-<div class="screen hidden" id="gameScreen">
-
-    <h1 class="game-title" style="font-size:1.9em;margin-bottom:2px;">🎮 Diktat-Champions!</h1>
-
-    <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-
-    <div class="mode-indicator" id="modeIndicator"></div>
-
-    <!-- Player cards -->
-    <div class="players-area" id="playersArea"></div>
-
-    <!-- Turn indicator -->
-    <div class="turn-indicator" id="turnIndicator"></div>
-
-    <!-- Moderator -->
-    <div class="moderator-area">
-        <div class="mod-icon">🎩</div>
-        <div class="mod-text" id="modText">Willkommen! Ich bin MAX, euer gnädiger Moderator. Zeigt mir, was ihr drauf habt! 😈</div>
+<!-- ═══════════ DIKTAT GAME ═══════════ -->
+<div class="screen hidden" id="diktatScreen">
+    <h1 class="game-title" style="font-size:1.8em;margin-bottom:2px;">📝 Diktat-Champion</h1>
+    <div class="progress-wrap"><div class="progress-fill" id="dProgressFill" style="width:0%"></div></div>
+    <div class="phase-badge" id="dPhaseBadge"></div>
+    <div class="players-area" id="dPlayers"></div>
+    <div class="turn-ind" id="dTurn"></div>
+    <div class="mod-area"><div class="mod-icon">🎩</div><div class="mod-text" id="dMod">Willkommen! Ich bin MAX – euer gnädiger Moderator. Auf geht's! 😈</div></div>
+    <div class="q-card" id="dQCard">
+        <div class="q-meta"><span id="dQNum">Frage 1</span><span class="q-tag" id="dQTag"></span></div>
+        <div class="q-text" id="dQText"></div>
+        <div class="correct-reveal" id="dReveal"></div>
     </div>
+    <div class="opts" id="dOpts"></div>
+    <div class="judge-area hidden" id="dJudge">
+        <button class="jbtn yes" id="dBtnYes" onclick="handleJudge(true)">✅ Richtig geschrieben!</button>
+        <button class="jbtn no" id="dBtnNo" onclick="handleJudge(false)">❌ Falsch geschrieben!</button>
+    </div>
+    <button class="btn-next" id="dBtnNext" onclick="dNextTurn()">Nächste Runde ➡️</button>
+    <button class="btn-to-setup" onclick="goSetup()">↩ Zum Setup</button>
+    <div class="game-over" id="dGameOver">
+        <span class="go-emoji" id="dGoEmoji">🏆</span>
+        <div class="go-title" id="dGoTitle"></div>
+        <div class="go-text" id="dGoText"></div>
+        <div class="go-scores" id="dGoScores"></div>
+        <button class="btn-again" onclick="startGame()">🔄 Nochmal!</button>
+        <button class="btn-home2" onclick="goHome()">🏠 Home</button>
+    </div>
+</div>
 
-    <!-- Question -->
-    <div class="question-card" id="questionCard">
-        <div class="q-meta">
-            <span id="qNum">Frage 1</span>
-            <span class="q-tag" id="qPlayerTag"></span>
+<!-- ═══════════ MATHE GAME ═══════════ -->
+<div class="screen hidden" id="matheScreen">
+    <h1 class="game-title" style="font-size:1.8em;margin-bottom:2px;">🔢 Mathe-Champion</h1>
+    <div class="progress-wrap"><div class="progress-fill" id="mProgressFill" style="width:0%"></div></div>
+    <div class="phase-badge" id="mPhaseBadge"></div>
+    <div class="players-area" id="mPlayers"></div>
+    <div class="turn-ind" id="mTurn"></div>
+    <div class="mod-area"><div class="mod-icon">🤖</div><div class="mod-text" id="mMod">Kleines 1×1 – groß gedacht! Zeig mir, was du kannst! 🔢</div></div>
+    <div class="mathe-equation" id="mEqCard">
+        <div class="eq-phase" id="mEqPhase"></div>
+        <div class="eq-numbers">
+            <span class="eq-factor" id="mFactorA">6</span>
+            <span class="eq-op">×</span>
+            <span class="eq-factor" id="mFactorB">7</span>
+            <span class="eq-eq">=</span>
+            <div class="eq-input-wrap">
+                <input type="number" id="matheInput" min="0" max="999" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')submitMath()">
+            </div>
         </div>
-        <div class="question-text" id="questionText"></div>
-        <div class="correct-reveal" id="correctReveal"></div>
+        <div class="mathe-result-reveal" id="mReveal"></div>
     </div>
-
-    <!-- Answer areas (toggled by mode) -->
-    <div class="options-grid" id="optionsGrid"></div>
-    <div class="judge-area hidden" id="judgeArea">
-        <button class="judge-btn yes-btn" id="btnYes" onclick="handleJudge(true)">✅ Richtig geschrieben!</button>
-        <button class="judge-btn no-btn" id="btnNo" onclick="handleJudge(false)">❌ Falsch geschrieben!</button>
+    <div class="numpad" id="numpad">
+        <button class="np-btn" onclick="np(7)">7</button>
+        <button class="np-btn" onclick="np(8)">8</button>
+        <button class="np-btn" onclick="np(9)">9</button>
+        <button class="np-btn" onclick="np(4)">4</button>
+        <button class="np-btn" onclick="np(5)">5</button>
+        <button class="np-btn" onclick="np(6)">6</button>
+        <button class="np-btn" onclick="np(1)">1</button>
+        <button class="np-btn" onclick="np(2)">2</button>
+        <button class="np-btn" onclick="np(3)">3</button>
+        <button class="np-btn del" onclick="npDel()">⌫</button>
+        <button class="np-btn" onclick="np(0)">0</button>
+        <button class="np-btn ok" onclick="submitMath()">✓</button>
     </div>
-
-    <button class="btn-next" id="btnNext" onclick="nextTurn()">Nächste Runde ➡️</button>
-    <button class="btn-back-setup" onclick="goToSetup()">↩ Zurück zum Setup</button>
-
-    <!-- Game over -->
-    <div class="game-over" id="gameOver">
-        <span class="go-emoji" id="goEmoji">🏆</span>
-        <div class="go-title" id="goTitle"></div>
-        <div class="go-text" id="goText"></div>
-        <div class="go-scores" id="goScores"></div>
-        <button class="btn-restart" onclick="startGame()">🔄 Nochmal!</button>
-        <button class="btn-go-setup" onclick="goToSetup()">⚙️ Setup</button>
+    <button class="btn-next" id="mBtnNext" onclick="mNextTurn()">Nächste Runde ➡️</button>
+    <button class="btn-to-setup" onclick="goSetup()">↩ Zum Setup</button>
+    <div class="game-over" id="mGameOver">
+        <span class="go-emoji" id="mGoEmoji">🏆</span>
+        <div class="go-title" id="mGoTitle"></div>
+        <div class="go-text" id="mGoText"></div>
+        <div class="go-scores" id="mGoScores"></div>
+        <button class="btn-again" onclick="startGame()">🔄 Nochmal!</button>
+        <button class="btn-home2" onclick="goHome()">🏠 Home</button>
     </div>
-
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
 //  CONSTANTS
-// ══════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+const SMILEYS = ['😁','😃','😀','🙂','😐','😞','😟','😢','😭'];
+const MAX_ERR = 8;
+const PEMOJIS = ['🦁','🦊','🐸','🐧'];
 
-const SMILEYS   = ['😁','😃','😀','🙂','😐','😞','😟','😢','😭'];
-const PLAYER_EMOJIS = ['🦁','🦊','🐸','🐧'];
-const MAX_ERRORS = SMILEYS.length - 1; // 8 → eliminated at 😭
-
-// ══════════════════════════════════════════════════════════════════
-//  PERSISTENT STATE (survives game restarts)
-// ══════════════════════════════════════════════════════════════════
-
-let wordList = [
-    "spannend","die Ecke","die Ecken","stärker","am Abend","pfiff","pfeifen",
-    "gegenseitig","der Raum","losrennen","rennen","rannte","stehen","er stand",
-    "kriegen","kriegt","Gamemaster","Bahn","Leben","grüne Licht","fahren","sie fahren",
-    "schlug","Regen","regnete","rief","laut","antwortete","bekam","Angst",
-    "wünschte","Zimmer","allein","sahen","größer","Wind","Wolke","Fenster","bekam"
+// ════════════════════════════════════════════════
+//  DIKTAT DATA
+// ════════════════════════════════════════════════
+const DQ = [
+    {t:"Der Krimi war so ___, dass Ben die ganze Nacht weiterlesen musste.",          a:"spannend",    o:["spannend","Spannend","spannänd","spannent"]},
+    {t:"Hinter der ___ lauerte Kayo mit einer vollgeladenen Wasserpistole.",           a:"Ecke",        o:["Ecke","ecke","Ekke","Eke"]},
+    {t:"In allen ___ des Zimmers lagen Bens dreckige Socken.",                         a:"Ecken",       o:["Ecken","ecken","Ekken","Ekcen"]},
+    {t:"Ben glaubt, er ist viel ___ als alle anderen – stimmt leider nicht.",          a:"stärker",     o:["stärker","Stärker","stärcker","sterker"]},
+    {t:"Am ___ aß Kayo heimlich die ganze Schokolade seiner Oma auf.",                 a:"Abend",       o:["Abend","abend","Aabend","Abbend"]},
+    {t:"Der Schiedsrichter ___ laut, und das Spiel begann endlich.",                   a:"pfiff",       o:["pfiff","Pfiff","pfieff","pfif"]},
+    {t:"Kayo begann zu ___, als wäre überhaupt nichts gewesen.",                       a:"pfeifen",     o:["pfeifen","Pfeifen","pheifen","pfeiffen"]},
+    {t:"Ben und Kayo schoben sich ___ den Spinat auf den Teller.",                     a:"gegenseitig", o:["gegenseitig","Gegenseitig","gegensseitig","gegensäitig"]},
+    {t:"Der ganze ___ roch nach alten Turnsocken – sogar der Hamster flüchtete.",      a:"Raum",        o:["Raum","raum","Raume","Rauum"]},
+    {t:"Beim Startschuss wollte Kayo sofort ___, doch er stolperte gleich.",           a:"losrennen",   o:["losrennen","Losrennen","losrenen","lossrennen"]},
+    {t:"Ben konnte schneller ___ als jeder andere in der ganzen Klasse.",              a:"rennen",      o:["rennen","Rennen","renen","rennnen"]},
+    {t:"Kayo ___ so schnell er konnte, aber der Bus fuhr trotzdem ab.",                a:"rannte",      o:["rannte","Rannte","rantte","rannnte"]},
+    {t:"Ben wollte nicht lange ___ bleiben und setzte sich einfach hin.",              a:"stehen",      o:["stehen","Stehen","stehn","stehhen"]},
+    {t:"Plötzlich ___ ein riesiger Hund direkt vor Ben auf dem Weg.",                  a:"stand",       o:["stand","Stand","standt","stend"]},
+    {t:"Kayo wollte noch ein Eis ___, aber das letzte hatte schon Ben.",               a:"kriegen",     o:["kriegen","Kriegen","krigen","kriiegen"]},
+    {t:"Wer beim Test schummelt, ___ immer sofort Ärger.",                             a:"kriegt",      o:["kriegt","Kriegt","krigt","kriiegt"]},
+    {t:"Der ___ gab das Startsignal, und alle stürmten gleichzeitig los.",             a:"Gamemaster",  o:["Gamemaster","gamemaster","Gammaster","Gamesmaster"]},
+    {t:"Kayo blockierte die ganze ___ und ließ niemanden vorbei.",                     a:"Bahn",        o:["Bahn","bahn","Baahn","Bann"]},
+    {t:"Das ___ als Schulkind ist manchmal wirklich sehr anstrengend.",                a:"Leben",       o:["Leben","leben","Lben","Lebben"]},
+    {t:"Alle warteten auf das grüne ___, aber Kayo lief schon vorher los.",            a:"Licht",       o:["Licht","licht","Liicht","Lich"]},
+    {t:"Ben wollte mit dem Fahrrad ___, landete aber direkt im Gebüsch.",              a:"fahren",      o:["fahren","Fahren","faren","fahrren"]},
+    {t:"Jeden Morgen wollen die zwei zusammen zur Schule ___.",                        a:"fahren",      o:["fahren","Fahren","faren","fahrren"]},
+    {t:"Er ___ die Tür so fest zu, dass das Bild von der Wand fiel.",                 a:"schlug",      o:["schlug","Schlug","schlugg","schluck"]},
+    {t:"Im ___ sieht Kayos Frisur aus wie ein nasser Wischmopp.",                      a:"Regen",       o:["Regen","regen","Reegen","Raegen"]},
+    {t:"Es ___ so stark, dass der gesamte Schulhof überschwemmt war.",                a:"regnete",     o:["regnete","Regnete","regnette","regnäte"]},
+    {t:"Kayo ___ laut um Hilfe, weil eine winzige Spinne im Zimmer war.",             a:"rief",        o:["rief","Rief","rieff","rif"]},
+    {t:"Ben trommelte so ___ auf den Tisch, dass alle zusammenzuckten.",              a:"laut",        o:["laut","Laut","lautt","lauht"]},
+    {t:"Kayo ___ mit vollem Mund auf die Frage – sehr unappetitlich!",               a:"antwortete",  o:["antwortete","Antwortete","antworrte","antwortette"]},
+    {t:"Ben ___ rote Ohren, als er beim Schummeln erwischt wurde.",                   a:"bekam",       o:["bekam","Bekam","bekkam","bekamm"]},
+    {t:"Kayo hatte ___ vor dem Zahnarzt und versteckte sich unter dem Bett.",         a:"Angst",       o:["Angst","angst","Angstt","Aengst"]},
+    {t:"Ben ___ sich, dass die Schule nur drei Tage die Woche hätte.",               a:"wünschte",    o:["wünschte","Wünschte","wünschtte","wünschde"]},
+    {t:"Kayos ___ war so unordentlich, dass die Mutter die Tür einfach schloss.",    a:"Zimmer",      o:["Zimmer","zimmer","Zimer","Zimmmer"]},
+    {t:"Ben musste ___ aufräumen, weil Kayo angeblich krank war.",                    a:"allein",      o:["allein","Allein","allain","alein"]},
+    {t:"Die beiden ___ sich an und wussten sofort: Das wird heute schiefgehen.",     a:"sahen",       o:["sahen","Sahen","saahn","sahhen"]},
+    {t:"Der neue Schüler war viel ___ als Ben – das passte Ben gar nicht.",           a:"größer",      o:["größer","Größer","gröser","grösser"]},
+    {t:"Der ___ blies so stark, dass Kayos Hausaufgaben einfach davonflogen.",        a:"Wind",        o:["Wind","wind","Winnd","Wint"]},
+    {t:"Eine riesige schwarze ___ zog über den Sportplatz – Regen im Anmarsch!",     a:"Wolke",       o:["Wolke","wolke","Wollke","Wolcke"]},
+    {t:"Ben schaute aus dem ___ und sah Kayo direkt in eine Pfütze treten.",         a:"Fenster",     o:["Fenster","fenster","Fensster","Fenstar"]},
+    {t:"Kayo ___ Bauchschmerzen, sobald er nur an den Mathetest dachte.",            a:"bekam",       o:["bekam","Bekam","bekkam","bekamm"]},
 ];
 
-let playerNames = ['Ben','Kayo'];
-
-// ══════════════════════════════════════════════════════════════════
-//  GAME STATE
-// ══════════════════════════════════════════════════════════════════
-
-let G = {};   // filled by startGame()
-
-// ══════════════════════════════════════════════════════════════════
-//  UTILITY
-// ══════════════════════════════════════════════════════════════════
-
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function pick(a){return a[Math.floor(Math.random()*a.length)];}
-
-// ══════════════════════════════════════════════════════════════════
-//  DISTRACTOR GENERATOR
-// ══════════════════════════════════════════════════════════════════
-
-function generateDistractors(word, need = 3) {
-    const seen = new Set([word]);
-    const out  = [];
-
-    function add(w) {
-        if (w && !seen.has(w)) { seen.add(w); out.push(w); }
-    }
-
-    const parts = word.split(' ');
-
-    // 1. Flip capitalisation of each part
-    parts.forEach((p, i) => {
-        const f = p[0] === p[0].toUpperCase()
-            ? p[0].toLowerCase() + p.slice(1)
-            : p[0].toUpperCase() + p.slice(1);
-        const arr = [...parts]; arr[i] = f;
-        add(arr.join(' '));
-    });
-
-    // 2. All parts fully lowercase
-    const allLow = parts.map(p => p.toLowerCase()).join(' ');
-    if (allLow !== word) add(allLow);
-
-    // 3. All parts first-letter uppercase
-    const allUp = parts.map(p => p[0].toUpperCase()+p.slice(1)).join(' ');
-    if (allUp !== word) add(allUp);
-
-    // Work on the main (last) part for spelling variants
-    const pre  = parts.slice(0,-1).join(' ');
-    const main = parts[parts.length-1];
-    const pref = pre ? pre + ' ' : '';
-
-    // 4. Double a consonant
-    const cons = 'bdfgklmnprst';
-    for (let i=1; i<main.length; i++) {
-        const c = main[i].toLowerCase();
-        if (cons.includes(c) && main[i-1]?.toLowerCase() !== c && main[i+1]?.toLowerCase() !== c) {
-            add(pref + main.slice(0,i+1) + main[i] + main.slice(i+1)); break;
-        }
-    }
-
-    // 5. Remove a doubled consonant
-    for (let i=0; i<main.length-1; i++) {
-        if (main[i].toLowerCase()===main[i+1].toLowerCase() && /[a-z]/i.test(main[i])) {
-            add(pref + main.slice(0,i) + main.slice(i+1)); break;
-        }
-    }
-
-    // 6. Umlaut swaps
-    const umMap = [['ä','e'],['ü','u'],['ö','o'],['ä','ae'],['ü','ue'],['ö','oe']];
-    for (const [f,t] of umMap) {
-        if (out.length>=need) break;
-        if (main.includes(f)) add(pref + main.replace(f, t));
-    }
-
-    // 7. ß ↔ ss
-    if (main.includes('ß')) add(pref + main.replace('ß','ss'));
-    else if (main.includes('ss')) add(pref + main.replace('ss','ß'));
-
-    // 8. Remove middle letter
-    if (main.length > 4) {
-        const m = Math.floor(main.length/2);
-        add(pref + main.slice(0,m) + main.slice(m+1));
-    }
-
-    // 9. Insert extra vowel
-    for (let i=1; i<main.length; i++) {
-        if ('aeiouäüö'.includes(main[i].toLowerCase())) {
-            add(pref + main.slice(0,i) + main[i] + main.slice(i)); break;
-        }
-    }
-
-    // 10. Swap ie ↔ ei
-    if (main.includes('ie')) add(pref + main.replace('ie','ei'));
-    else if (main.includes('ei')) add(pref + main.replace('ei','ie'));
-
-    // Fallback padding
-    let pad = 0;
-    while (out.length < need) { add(pref + main + main[main.length-1]+(pad||'')); pad++; }
-
-    // Shuffle and return exactly `need`
-    return shuffle(out).slice(0, need);
-}
-
-// ══════════════════════════════════════════════════════════════════
-//  SETUP SCREEN
-// ══════════════════════════════════════════════════════════════════
-
-function renderSetup() {
-    renderPlayerInputs();
-    renderWordList();
-    updateStartBtn();
-}
-
-// ─── Players ──────────────────────────────────────────────────────
-
-function renderPlayerInputs() {
-    const c = document.getElementById('playerInputs');
-    c.innerHTML = '';
-    playerNames.forEach((name, i) => {
-        const row = document.createElement('div');
-        row.className = 'player-input-row';
-        row.innerHTML = `
-            <span class="player-emoji">${PLAYER_EMOJIS[i]}</span>
-            <input type="text" value="${name}" placeholder="Spieler ${i+1}"
-                   oninput="playerNames[${i}]=this.value;updateStartBtn()" maxlength="14">
-            ${playerNames.length > 1
-                ? `<button class="btn-remove-player" onclick="removePlayer(${i})" title="Entfernen">🗑</button>`
-                : '<div style="width:36px"></div>'}
-        `;
-        c.appendChild(row);
-    });
-    document.getElementById('btnAddPlayer').disabled = playerNames.length >= 4;
-}
-
-function addPlayerInput() {
-    if (playerNames.length >= 4) return;
-    playerNames.push('Spieler '+(playerNames.length+1));
-    renderPlayerInputs();
-    updateStartBtn();
-}
-
-function removePlayer(i) {
-    if (playerNames.length <= 1) return;
-    playerNames.splice(i, 1);
-    renderPlayerInputs();
-    updateStartBtn();
-}
-
-// ─── Words ────────────────────────────────────────────────────────
-
-function renderWordList() {
-    const c     = document.getElementById('wordListContainer');
-    const hint  = document.getElementById('emptyHint');
-    const count = document.getElementById('wordCount');
-
-    count.textContent = wordList.length + (wordList.length===1?' Wort':' Wörter');
-
-    if (wordList.length === 0) {
-        hint.style.display = 'block';
-        // remove existing chips
-        [...c.querySelectorAll('.word-chip')].forEach(e=>e.remove());
-        return;
-    }
-    hint.style.display = 'none';
-
-    // Rebuild chips
-    [...c.querySelectorAll('.word-chip')].forEach(e=>e.remove());
-    wordList.forEach((w, i) => {
-        const chip = document.createElement('div');
-        chip.className = 'word-chip';
-        chip.id = 'chip-'+i;
-        chip.innerHTML = `
-            <span class="word-chip-text">${w}</span>
-            <button class="btn-delete-word" onclick="deleteWord(${i})">🗑 löschen</button>
-        `;
-        c.appendChild(chip);
-    });
-}
-
-function addWord() {
-    const inp = document.getElementById('wordInput');
-    const val = inp.value.trim();
-    if (!val) return;
-    wordList.push(val);
-    inp.value = '';
-    renderWordList();
-    updateStartBtn();
-    // Scroll to bottom
-    const c = document.getElementById('wordListContainer');
-    c.scrollTop = c.scrollHeight;
-}
-
-function deleteWord(i) {
-    wordList.splice(i, 1);
-    renderWordList();
-    updateStartBtn();
-}
-
-function updateStartBtn() {
-    const ok = playerNames.some(n=>n.trim()!=='') && wordList.length > 0;
-    document.getElementById('btnStart').disabled = !ok;
-}
-
-// ══════════════════════════════════════════════════════════════════
-//  GAME LOGIC
-// ══════════════════════════════════════════════════════════════════
-
-const WRONG_COMMENTS = [
+// ════════════════════════════════════════════════
+//  COMMENTS
+// ════════════════════════════════════════════════
+const W_COMMENTS = [
     "OH WOW. Das war SO falsch – sogar mein toter Kaktus weiß das besser! 🌵",
     "FALSCH! Mit dem Ellbogen getippt?! Ich hab keine Worte. Doch: ÜBEN! 💀",
-    "NEIN NEIN NEIN! Schlechter als mein erster Kochversuch – und der war UNGENIESSBAR! 🤢",
+    "NEIN NEIN NEIN! Schlechter als mein erster Kochversuch – UNGENIESSBAR! 🤢",
     "FALSCH! Ich schäme mich stellvertretend für dich. Das ist echte Kunst! 😬",
-    "WAS IST DAS?! Soll ich die Lehrerin anrufen?! Spaß... oder?! 📞",
+    "WAS IST DAS?! FALSCH! Soll ich die Lehrerin anrufen?! Spaß... oder?! 📞",
     "FALSCH! Level: Komplett im falschen Film. Augen auf, Gehirn AN! 🎬",
     "MEGA FALSCH! So daneben wie ein Fußball auf dem Mond! 🌙⚽",
-    "Oh je, oh je. FALSCH! Ich mache mir Sorgen um dich. Ernst gemeint! 🫣",
+    "Oh je. FALSCH! Ich mache mir Sorgen um dich. Wirklich! 🫣",
     "FALSCH! Du hast meinen Glauben an die Menschheit erschüttert. Danke! 🤦",
     "HAAAA! FALSCH! War das Absicht? Dann wäre es Kunst! 🎨",
     "Oooh, FALSCH! Das schmerzt mich mehr als dich! (Lüge.) 😂",
-    "FALSCH! Das war so überzeugend daneben... Respekt, irgendwie! 🎭",
 ];
-
-const CORRECT_COMMENTS = [
+const OK_COMMENTS = [
     "Richtig! Aber war das Glück oder Wissen?! Ich vermute: GLÜCK! 🎲",
-    "OH WOW, richtig! Wirklich überraschend. Das war geraten, oder?! 🤔",
+    "OH WOW, richtig! Ehrlich überraschend. Das war geraten, oder?! 🤔",
     "KORREKT! Hast du heimlich die Antwort gesehen?! Ich behalte dich im Auge! 👀",
     "Richtig! Purer Zufall – aber ich frag dich ja nicht! 🍀",
     "RICHTIG! Glückspilz! Beim nächsten Mal klappt das bestimmt nicht! 🍄",
     "Jawohl! Richtig! Genieße es, solange es dauert! 🌟",
-    "KORREKT! Das muss ein Fehler im System sein... 🖥️",
+    "KORREKT! Das muss ein Systemfehler sein... 🖥️",
     "Richtig! KAUM ZU GLAUBEN! Hat jemand geholfen?! 😲",
 ];
-
-const MOD_INTROS = [
+const M_OK_COMMENTS = [
+    "RICHTIG! Bist du sicher, dass du das nicht geraten hast?! 🎲",
+    "Korrekt! Das Gehirn funktioniert heute! Erstaunlich! 🧠",
+    "JA! Richtig! Ich bin... überrascht. Wirklich. 🤩",
+    "STIMMT! Glückspilz oder Rechenkönig?! 🍄",
+    "Jawohl! Richtig! Weiter so – wenn du kannst! 🌟",
+];
+const M_W_COMMENTS = [
+    "FALSCH! Hast du gewürfelt?! Das Ergebnis war ganz wo anders! 🎲",
+    "NEIN! SO falsch! Zähl nochmal an den Fingern nach! 🤦",
+    "FALSCH! Das 1×1 weint gerade. Wirklich! 😭",
+    "Oh nein. Oh je. FALSCH! Ich glaube, du brauchst mehr Übung! 🔢",
+    "MEGA FALSCH! Das war mutig aber leider komplett daneben! 💀",
+];
+const INTRO = [
     p=>`${p} – zeig mir was du drauf hast! Oder auch nicht... 😏`,
     p=>`Achtung ${p}! Deine Chance. Versaue sie nicht! 🎯`,
-    p=>`Okay ${p}, ich halte die Luft an... nein, eigentlich nicht. Los! 😈`,
-    p=>`${p} tritt an! Schon gespannt auf den Fehler – äh, die Antwort! 🫧`,
-    p=>`Los ${p}! Zeig den anderen wie's geht – wenn du kannst! 😎`,
+    p=>`Los ${p}! Ich bin schon gespannt auf den Fehler – äh, die Antwort! 😈`,
+    p=>`${p} tritt an! Genieße den Moment... solange er dauert! 🫧`,
     p=>`${p}, du schaffst das! Wahrscheinlich nicht. Aber versuch's! 🙃`,
 ];
 
-// ── Build sentences ───────────────────────────────────────────────
-
-const SENTENCE_TEMPLATES = [
-    w=>`Das Spiel war so ___, dass alle vor Aufregung fast vom Stuhl fielen!`,
-    w=>`Er versteckte seine Jause in ___, bis sie so stank, dass alle flohen.`,
-    w=>`An allen ___ klebten geheime Kaugummis vom letzten Schuljahr.`,
-    w=>`In ___ roch es nach alten Turnschuhen – sogar der Hamster flüchtete.`,
-    w=>`Beim Staffellauf wollte er einfach ___ losrennen, bevor der Schiedsrichter pfiff.`,
-    w=>`Er versuchte zu ___, sah dabei aber aus wie ein aufgescheuchtes Huhn.`,
-    w=>`Er konnte nicht einfach ___ bleiben, wenn irgendwo Kuchen in der Nähe war.`,
-    w=>`Er wollte unbedingt noch etwas ___, aber die Antwort war ein klares Nein.`,
-    w=>`Immer wenn er schummelt, ___ er sofort Ärger – ohne Ausnahme!`,
-    w=>`Der ___ entschied sofort: 15 Liegestützen – ohne Wenn und Aber!`,
-    w=>`Er wartete sehnsüchtig auf das ___, um endlich loszulaufen.`,
-    w=>`Er wollte stolz ___, fuhr aber direkt in den Zaun.`,
-    w=>`Jeden Morgen ___ die beiden zusammen zur Schule – und stritten die ganze Zeit.`,
-    w=>`Das war so ___, dass alle gleichzeitig den Atem anhielten.`,
-    w=>`Er ___ die Tür so laut zu, dass alle zusammenzuckten.`,
-    w=>`Der ___ fiel so stark, dass die Frisur am Ende wie ein Wischmopp aussah.`,
-    w=>`Es ___ so heftig, dass beide wie nasse Hunde nach Hause kamen.`,
-    w=>`Er ___ so laut um Hilfe, dass die Nachbarn dachten, das Haus brenne.`,
-    w=>`Er ist immer dann besonders ___, wenn er eigentlich still sein soll.`,
-    w=>`Er ___ mit vollem Mund auf die Frage – was überhaupt nicht gut aussah.`,
-    w=>`Er ___ rote Ohren, als er beim Schummeln erwischt wurde.`,
-    w=>`Er hatte so viel ___, dass er sich versteckte – obwohl er der Größere war!`,
-    w=>`Er ___ sich sehnlichst, dass der Unterricht endlich aufhört.`,
-    w=>`Sein ___ roch nach alten Socken und kaltem Pizzakarton.`,
-    w=>`Er musste ___ aufräumen, weil der andere angeblich Bauchschmerzen hatte.`,
-    w=>`Beide ___ sich an und wussten: Das wird heute noch sehr schlimm.`,
-    w=>`Der neue Schüler war viel ___ als erwartet – das gefiel gar nicht.`,
-    w=>`Der ___ blies so stark, dass die Hausaufgaben davonflogen – er war heimlich froh.`,
-    w=>`Eine dicke schwarze ___ zog über die Schule – total dramatisch!`,
-    w=>`Er schaute aus dem ___ und sah, dass es draußen genauso chaotisch war.`,
-    w=>`Beim Gedanken an den Test ___ er Bauchschmerzen und wollte nicht aufstehen.`,
-    w=>`Kaum sah er die Spinne, da ___ er so schnell aus dem Zimmer wie noch nie.`,
-    w=>`Er ___ plötzlich mitten im Raum und hatte mysteriöserweise Ketchup im Gesicht.`,
+// ════════════════════════════════════════════════
+//  MATHE PHASES
+// ════════════════════════════════════════════════
+const PHASES = [
+    {rounds:5,  rows:[2,3,4,10], label:"Phase 1 – Reihen 2, 3, 4 & 10"},
+    {rounds:5,  rows:[5,6],      label:"Phase 2 – Reihen 5 & 6"},
+    {rounds:8,  rows:[7,8,9],    label:"Phase 3 – Reihen 7, 8 & 9"},
 ];
+const TOTAL_MATH = 18;
 
-function buildSentence(word) {
-    // Try to find a template that uses the word naturally
-    // Otherwise pick a random one
-    const tpl = SENTENCE_TEMPLATES[Math.floor(Math.random() * SENTENCE_TEMPLATES.length)];
-    return tpl(word);
-}
+// ════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════
+let selGame = '';
+let playerNames = ['Ben','Kayo'];
+let D = {}, M = {};
 
-// ── Stars ─────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════
+//  UTILITIES
+// ════════════════════════════════════════════════
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
 
 function buildStars(){
     const c=document.getElementById('stars');
@@ -731,346 +427,424 @@ function buildStars(){
     }
 }
 
-// ── Confetti ──────────────────────────────────────────────────────
+function showFlash(t,type){
+    const m=document.getElementById('flashMsg');
+    m.textContent=t; m.className='flash-msg '+type+' show';
+    setTimeout(()=>{m.className='flash-msg';},900);
+}
 
 function spawnConfetti(){
-    const chars=['⭐','🌟','✨','🎉','🎊','💫','🍀','🏆','🌈'];
+    const cc=['⭐','🌟','✨','🎉','🎊','💫','🍀','🏆'];
     const c=document.getElementById('confetti');
     for(let i=0;i<16;i++){
         setTimeout(()=>{
-            const el=document.createElement('div');el.className='conf-piece';
-            el.textContent=pick(chars);
-            const dur=(1.3+Math.random()*1.2).toFixed(1);
-            el.style.cssText=`left:${Math.random()*100}vw;--dur:${dur}s;animation-delay:${(i*0.06).toFixed(2)}s`;
-            c.appendChild(el);setTimeout(()=>el.remove(),(parseFloat(dur)+0.5)*1000);
+            const e=document.createElement('div');e.className='cp';
+            e.textContent=pick(cc);
+            const d=(1.3+Math.random()*1.1).toFixed(1);
+            e.style.cssText=`left:${Math.random()*100}vw;--dur:${d}s;animation-delay:${(i*.06).toFixed(2)}s`;
+            c.appendChild(e);setTimeout(()=>e.remove(),(parseFloat(d)+.5)*1000);
         },0);
     }
 }
 
-// ── Flash ─────────────────────────────────────────────────────────
-
-function showFlash(text,type){
-    const m=document.getElementById('flashMsg');
-    m.textContent=text;m.className='flash-msg '+type+' show';
-    setTimeout(()=>{m.className='flash-msg';},900);
-}
-
-// ── Lives bar ─────────────────────────────────────────────────────
-
-function buildLivesBar(e){
+function livesBar(err){
     return SMILEYS.map((s,i)=>{
-        if(i<e) return `<span style="opacity:0.18;text-decoration:line-through">${s}</span>`;
-        if(i===e) return `<span style="font-size:1.2em">${s}</span>`;
-        return `<span style="opacity:0.2">${s}</span>`;
+        if(i<err) return `<span style="opacity:.18;text-decoration:line-through">${s}</span>`;
+        if(i===err) return `<span style="font-size:1.2em">${s}</span>`;
+        return `<span style="opacity:.2">${s}</span>`;
     }).join('');
 }
 
-// ── Render player cards ───────────────────────────────────────────
+// ════════════════════════════════════════════════
+//  NAV
+// ════════════════════════════════════════════════
+function show(id){['homeScreen','setupScreen','diktatScreen','matheScreen'].forEach(s=>document.getElementById(s).classList.toggle('hidden',s!==id));}
 
-function renderPlayerCards(){
-    const area = document.getElementById('playersArea');
-    area.innerHTML = '';
-    G.players.forEach((p,i) => {
-        const card = document.createElement('div');
-        card.className = 'player-card' + (i===G.currentPlayerIdx?' active':'') + (p.eliminated?' eliminated':'');
-        card.id = 'pc-'+i;
-        card.innerHTML = `
-            <div class="pc-emoji">${p.emoji}</div>
-            <div class="pc-name">${p.name}</div>
-            <span class="pc-smiley" id="smiley-${i}">${SMILEYS[p.errors]}</span>
-            <div class="pc-errors" id="errors-${i}">${p.errors} Fehler</div>
-            <div class="pc-lives" id="lives-${i}">${buildLivesBar(p.errors)}</div>
-        `;
+function goHome(){show('homeScreen');}
+
+function selectGame(g){
+    selGame=g;
+    document.getElementById('setupTitle').textContent = g==='diktat'?'📝 Diktat-Champion':'🔢 Mathe-Champion';
+    renderPlayers();
+    show('setupScreen');
+}
+
+function goSetup(){
+    renderPlayers();
+    show('setupScreen');
+}
+
+// ════════════════════════════════════════════════
+//  SETUP
+// ════════════════════════════════════════════════
+function renderPlayers(){
+    const c=document.getElementById('playerInputs');
+    c.innerHTML='';
+    playerNames.forEach((n,i)=>{
+        const r=document.createElement('div');r.className='player-row';
+        r.innerHTML=`<span class="pemoji">${PEMOJIS[i]}</span>
+            <input type="text" value="${n}" placeholder="Spieler ${i+1}" maxlength="14"
+                   oninput="playerNames[${i}]=this.value;checkStart()">
+            ${playerNames.length>1?`<button class="btn-rm" onclick="removePlayer(${i})">🗑</button>`:'<div style="width:36px"></div>'}`;
+        c.appendChild(r);
+    });
+    document.getElementById('btnAddP').disabled=playerNames.length>=4;
+    checkStart();
+}
+
+function addPlayer(){
+    if(playerNames.length>=4)return;
+    playerNames.push('Spieler '+(playerNames.length+1));
+    renderPlayers();
+}
+
+function removePlayer(i){
+    if(playerNames.length<=1)return;
+    playerNames.splice(i,1);
+    renderPlayers();
+}
+
+function checkStart(){
+    document.getElementById('btnStart').disabled=!playerNames.some(n=>n.trim());
+}
+
+// ════════════════════════════════════════════════
+//  SHARED PLAYER INIT
+// ════════════════════════════════════════════════
+function makePlayers(){
+    return playerNames.map((n,i)=>({name:n.trim()||`Spieler ${i+1}`,emoji:PEMOJIS[i],errors:0,eliminated:false}));
+}
+
+function renderPlayerCards(containerId, players, activeIdx){
+    const area=document.getElementById(containerId);
+    area.innerHTML='';
+    players.forEach((p,i)=>{
+        const card=document.createElement('div');
+        card.className='player-card'+(i===activeIdx?' active':'')+(p.eliminated?' eliminated':'');
+        card.id=containerId+'-pc-'+i;
+        card.innerHTML=`<div class="pc-em">${p.emoji}</div><div class="pc-name">${p.name}</div>
+            <span class="pc-smiley" id="${containerId}-sm-${i}">${SMILEYS[p.errors]}</span>
+            <div class="pc-err" id="${containerId}-er-${i}">${p.errors} Fehler</div>
+            <div class="pc-lives" id="${containerId}-lv-${i}">${livesBar(p.errors)}</div>`;
         area.appendChild(card);
     });
 }
 
-function updatePlayerCard(i){
-    const p = G.players[i];
-    document.getElementById('pc-'+i).className =
-        'player-card' + (i===G.currentPlayerIdx?' active':'') + (p.eliminated?' eliminated':'');
-    document.getElementById('smiley-'+i).textContent = SMILEYS[p.errors];
-    document.getElementById('errors-'+i).textContent = p.errors+' Fehler';
-    document.getElementById('lives-'+i).innerHTML = buildLivesBar(p.errors);
+function updateCard(pfx, players, i, activeIdx){
+    const p=players[i];
+    document.getElementById(pfx+'-pc-'+i).className='player-card'+(i===activeIdx?' active':'')+(p.eliminated?' eliminated':'');
+    const sm=document.getElementById(pfx+'-sm-'+i);
+    sm.textContent=SMILEYS[p.errors];
+    sm.classList.add('shake'); setTimeout(()=>sm.classList.remove('shake'),600);
+    document.getElementById(pfx+'-er-'+i).textContent=p.errors+' Fehler';
+    document.getElementById(pfx+'-lv-'+i).innerHTML=livesBar(p.errors);
 }
 
-// ── Start game ────────────────────────────────────────────────────
-
-function startGame(){
-    const names = playerNames.map(n=>n.trim()).filter(n=>n!=='');
-    if(names.length===0 || wordList.length===0) return;
-
-    // Ensure enough questions
-    const wordOrder = shuffle([...Array(wordList.length).keys()]);
-    // Repeat list if needed (at least 10 questions)
-    let questions = [...wordOrder];
-    while(questions.length < 10) questions = [...questions, ...shuffle([...Array(wordList.length).keys()])];
-
-    G = {
-        players: names.map((name,i)=>({name, emoji:PLAYER_EMOJIS[i], errors:0, eliminated:false})),
-        wordOrder: questions,
-        qIdx: 0,
-        currentPlayerIdx: 0,
-        answered: false,
-        shownWord: '', shownIsCorrect: false,
-    };
-
-    document.getElementById('setupScreen').classList.add('hidden');
-    document.getElementById('gameScreen').classList.remove('hidden');
-    document.getElementById('gameOver').style.display='none';
-    document.getElementById('questionCard').style.display='block';
-    document.getElementById('optionsGrid').style.display='grid';
-    document.getElementById('judgeArea').classList.add('hidden');
-    document.getElementById('btnNext').style.display='none';
-
-    renderPlayerCards();
-    loadQuestion();
+function nextAlive(players, cur){
+    let n=(cur+1)%players.length, t=0;
+    while(players[n].eliminated&&t<players.length){n=(n+1)%players.length;t++;}
+    return n;
 }
 
-// ── Load question ─────────────────────────────────────────────────
-
-function loadQuestion(){
-    if(G.qIdx >= G.wordOrder.length){ finishGame(null); return; }
-
-    G.answered = false;
-    const word = wordList[G.wordOrder[G.qIdx]];
-    const isChoiceMode = (G.qIdx % 2 === 0);    // alternate modes
-
-    // Progress
-    document.getElementById('progressFill').style.width =
-        Math.min(100, (G.qIdx / Math.max(G.wordOrder.length,1)*100))+'%';
-
-    // Mode badge
-    const mi = document.getElementById('modeIndicator');
-    if(isChoiceMode){
-        mi.innerHTML = '<span class="mode-badge choice">✏️ Wähle das richtig geschriebene Wort</span>';
-    } else {
-        mi.innerHTML = '<span class="mode-badge yesno">🔍 Richtig oder falsch geschrieben?</span>';
-    }
-
-    // Q meta
-    const p = G.players[G.currentPlayerIdx];
-    document.getElementById('qNum').textContent = `Frage ${G.qIdx+1}`;
-    document.getElementById('qPlayerTag').textContent = `${p.emoji} ${p.name} ist dran`;
-    document.getElementById('turnIndicator').textContent = `▶ ${p.emoji} ${p.name} ist dran!`;
-
-    // Build sentence
-    const sentence = buildSentence(word);
-    const parts = sentence.split('___');
-
-    // Reset reveals
-    document.getElementById('correctReveal').style.display='none';
-    document.getElementById('correctReveal').innerHTML='';
-
-    if(isChoiceMode){
-        // 4-choice mode
-        document.getElementById('questionText').innerHTML =
-            parts[0]+'<span class="blank-slot" id="blankSlot">_ _ _</span>'+(parts[1]||'');
-
-        const distractors = generateDistractors(word, 3);
-        const options = shuffle([word, ...distractors]);
-
-        const grid = document.getElementById('optionsGrid');
-        grid.innerHTML='';
-        options.forEach(opt=>{
-            const btn=document.createElement('button');
-            btn.className='opt-btn'; btn.textContent=opt;
-            btn.onclick=()=>handleChoice(opt, word, btn);
-            grid.appendChild(btn);
-        });
-
-        document.getElementById('optionsGrid').style.display='grid';
-        document.getElementById('judgeArea').classList.add('hidden');
-    } else {
-        // Yes/No mode
-        if(Math.random()<0.5){
-            G.shownWord=word; G.shownIsCorrect=true;
-        } else {
-            G.shownWord=generateDistractors(word,1)[0]; G.shownIsCorrect=false;
-        }
-        document.getElementById('questionText').innerHTML =
-            parts[0]+`<span class="shown-word" id="shownWordSpan">${G.shownWord}</span>`+(parts[1]||'');
-
-        document.getElementById('optionsGrid').style.display='none';
-        document.getElementById('judgeArea').classList.remove('hidden');
-        document.getElementById('btnYes').disabled=false;
-        document.getElementById('btnNo').disabled=false;
-        document.getElementById('btnYes').className='judge-btn yes-btn';
-        document.getElementById('btnNo').className='judge-btn no-btn';
-    }
-
-    document.getElementById('btnNext').style.display='none';
-    setMod(pick(MOD_INTROS)(p.name),'');
-}
-
-// ── Handle choice (4-option mode) ────────────────────────────────
-
-function handleChoice(selected, correct, btn){
-    if(G.answered) return;
-    G.answered=true;
-    document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
-
-    const blank=document.getElementById('blankSlot');
-    const ok=selected===correct;
-
-    if(ok){
-        btn.classList.add('is-correct');
-        blank.textContent=selected; blank.className='blank-slot filled-ok';
-        setMod(pick(CORRECT_COMMENTS),'correct-msg');
-        showFlash('✅ RICHTIG!','correct-flash');
-        spawnConfetti();
-    } else {
-        btn.classList.add('is-wrong');
-        blank.textContent=selected+' ✗'; blank.className='blank-slot filled-fail';
-        document.querySelectorAll('.opt-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('is-reveal');});
-        setMod(pick(WRONG_COMMENTS),'wrong-msg');
-        showFlash('❌ FALSCH!','wrong-flash');
-        if(applyError()) return;
-    }
-    document.getElementById('btnNext').style.display='block';
-}
-
-// ── Handle yes/no (judge mode) ────────────────────────────────────
-
-function handleJudge(playerSaysCorrect){
-    if(G.answered) return;
-    G.answered=true;
-    document.getElementById('btnYes').disabled=true;
-    document.getElementById('btnNo').disabled=true;
-
-    const word = wordList[G.wordOrder[G.qIdx]];
-    const playerIsRight = (playerSaysCorrect === G.shownIsCorrect);
-    const clickedBtn = playerSaysCorrect
-        ? document.getElementById('btnYes')
-        : document.getElementById('btnNo');
-
-    const span = document.getElementById('shownWordSpan');
-
-    if(playerIsRight){
-        span.className = G.shownIsCorrect ? 'shown-word reveal-ok' : 'shown-word reveal-fail';
-        clickedBtn.classList.add('chosen-correct');
-        setMod(pick(CORRECT_COMMENTS),'correct-msg');
-        showFlash('✅ RICHTIG!','correct-flash');
-        spawnConfetti();
-        if(!G.shownIsCorrect) showCorrectReveal(word);
-    } else {
-        span.className = G.shownIsCorrect ? 'shown-word reveal-ok' : 'shown-word reveal-fail';
-        clickedBtn.classList.add('chosen-wrong');
-        setMod(pick(WRONG_COMMENTS),'wrong-msg');
-        showFlash('❌ FALSCH!','wrong-flash');
-        showCorrectReveal(word);
-        if(applyError()) return;
-    }
-    document.getElementById('btnNext').style.display='block';
-}
-
-function showCorrectReveal(word){
-    const rev = document.getElementById('correctReveal');
-    rev.innerHTML=`✏️ Richtig geschrieben:<span class="cw">${word}</span>`;
-    rev.style.display='block';
-}
-
-// ── Apply error to current player ────────────────────────────────
-
-function applyError(){
-    const i = G.currentPlayerIdx;
-    const p = G.players[i];
-    p.errors++;
-
-    const sEl = document.getElementById('smiley-'+i);
-    sEl.textContent = SMILEYS[p.errors];
-    sEl.classList.add('shake');
-    setTimeout(()=>sEl.classList.remove('shake'),600);
-    updatePlayerCard(i);
-
-    if(p.errors >= MAX_ERRORS){
-        p.eliminated = true;
-        updatePlayerCard(i);
-        const alive = G.players.filter(pl=>!pl.eliminated);
-        if(alive.length <= 1){
-            setTimeout(()=>finishGame(p.name), 1700);
-            return true;
-        }
+function applyError(pfx, players, idx, activeIdx){
+    players[idx].errors++;
+    updateCard(pfx, players, idx, activeIdx);
+    if(players[idx].errors>=MAX_ERR){
+        players[idx].eliminated=true;
+        return true; // eliminated
     }
     return false;
 }
 
-// ── Next turn ─────────────────────────────────────────────────────
-
-function nextTurn(){
-    // Advance to next non-eliminated player
-    let next = (G.currentPlayerIdx + 1) % G.players.length;
-    let tries = 0;
-    while(G.players[next].eliminated && tries < G.players.length){
-        next = (next+1) % G.players.length; tries++;
-    }
-    G.currentPlayerIdx = next;
-    G.qIdx++;
-    renderPlayerCards();
-    loadQuestion();
-}
-
-// ── Moderator ─────────────────────────────────────────────────────
-
-function setMod(text,cls){
-    const el=document.getElementById('modText');
-    el.textContent=text; el.className='mod-text '+cls;
-}
-
-// ── Finish game ───────────────────────────────────────────────────
-
-function finishGame(loserName){
-    document.getElementById('questionCard').style.display='none';
-    document.getElementById('optionsGrid').style.display='none';
-    document.getElementById('judgeArea').classList.add('hidden');
-    document.getElementById('btnNext').style.display='none';
-    document.getElementById('turnIndicator').textContent='';
-    document.getElementById('modeIndicator').innerHTML='';
-    document.getElementById('gameOver').style.display='block';
-
-    const scores = G.players.map(p=>
-        `<div class="go-score-item">${p.emoji} ${p.name}: ${p.errors} Fehler ${SMILEYS[p.errors]}${p.eliminated?' 💀':''}</div>`
+function finishScreen(pfx, players, loserName, onRestart){
+    const alive=players.filter(p=>!p.eliminated);
+    const goEl=document.getElementById(pfx+'GameOver');
+    goEl.style.display='block';
+    document.getElementById(pfx+'GoScores').innerHTML=players.map(p=>
+        `<div class="go-score">${p.emoji} ${p.name}: ${p.errors} Fehler ${SMILEYS[p.errors]}${p.eliminated?' 💀':''}</div>`
     ).join('');
-    document.getElementById('goScores').innerHTML=scores;
-
-    const alive = G.players.filter(p=>!p.eliminated);
-    if(loserName && alive.length===1){
-        const winner = alive[0];
-        document.getElementById('goEmoji').textContent='💀';
-        document.getElementById('goTitle').textContent=`${loserName} ist RAUS! 😭`;
-        document.getElementById('goText').innerHTML=
-            `${winner.emoji} <strong>${winner.name}</strong> ist der Diktat-Champion! 🏆<br>
-            <span style="font-size:0.88em;opacity:0.7">${loserName}... ich sag nichts. Aber ich DENKE was! 😬</span>`;
-        setMod(`GAME OVER für ${loserName}! Das war... nun ja. Und ${winner.name}: Nicht zu viel angeben – perfekt war das auch nicht! 😈`,'wrong-msg');
+    if(loserName&&alive.length<=1){
+        const w=alive[0]||players.reduce((a,b)=>a.errors<b.errors?a:b);
+        document.getElementById(pfx+'GoEmoji').textContent='💀';
+        document.getElementById(pfx+'GoTitle').textContent=`${loserName} ist RAUS! 😭`;
+        document.getElementById(pfx+'GoText').innerHTML=`${w.emoji} <strong>${w.name}</strong> ist Champion! 🏆<br><span style="opacity:.7;font-size:.9em">${loserName}... ich sag nichts. Aber ich DENKE was! 😬</span>`;
     } else {
-        // All questions done
-        const sorted = [...G.players].sort((a,b)=>a.errors-b.errors);
-        const best = sorted[0];
-        const tied = sorted.filter(p=>p.errors===best.errors).length > 1;
-        document.getElementById('goEmoji').textContent = tied?'🤝':'🏆';
-        document.getElementById('goTitle').textContent = tied?'Unentschieden!':best.name+' gewinnt!';
-        document.getElementById('goText').innerHTML = tied
-            ? `Alle gleich gut – äh, gleich. Ein echtes Unentschieden! 🤝`
-            : `${best.emoji} <strong>${best.name}</strong> hatte die wenigsten Fehler!<br><span style="opacity:0.7;font-size:0.88em">Ob Können oder Glück – wir wissen es nicht! 🎲</span>`;
-        setMod(`Alle Fragen durch! Das hätte ich nicht erwartet. Wirklich nicht! 😲`,'correct-msg');
+        const sorted=[...players].sort((a,b)=>a.errors-b.errors);
+        const best=sorted[0];
+        const tied=sorted.filter(p=>p.errors===best.errors).length>1;
+        document.getElementById(pfx+'GoEmoji').textContent=tied?'🤝':'🏆';
+        document.getElementById(pfx+'GoTitle').textContent=tied?'Unentschieden!':best.name+' gewinnt!';
+        document.getElementById(pfx+'GoText').innerHTML=tied
+            ?`Alle gleich gut – echtes Unentschieden! 🤝`
+            :`${best.emoji} <strong>${best.name}</strong> hatte die wenigsten Fehler!<br><span style="opacity:.7;font-size:.88em">Können oder Glück? Wir wissen es nicht! 🎲</span>`;
         spawnConfetti();
     }
 }
 
-// ── Navigate ──────────────────────────────────────────────────────
-
-function goToSetup(){
-    document.getElementById('gameScreen').classList.add('hidden');
-    document.getElementById('setupScreen').classList.remove('hidden');
-    renderSetup();
+// ════════════════════════════════════════════════
+//  START GAME
+// ════════════════════════════════════════════════
+function startGame(){
+    if(selGame==='diktat') startDiktat();
+    else startMathe();
 }
 
-// ══════════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+//  DIKTAT GAME
+// ════════════════════════════════════════════════
+function startDiktat(){
+    D={
+        players: makePlayers(),
+        order: shuffle([...Array(DQ.length).keys()]),
+        qIdx: 0,
+        curP: 0,
+        answered: false,
+        shownWord:'', shownOk:false,
+    };
+    show('diktatScreen');
+    document.getElementById('dGameOver').style.display='none';
+    document.getElementById('dQCard').style.display='block';
+    document.getElementById('dOpts').style.display='grid';
+    document.getElementById('dJudge').classList.add('hidden');
+    document.getElementById('dBtnNext').style.display='none';
+    renderPlayerCards('dPlayers', D.players, D.curP);
+    dLoad();
+}
 
+function dLoad(){
+    if(D.qIdx>=DQ.length){dFinish(null);return;}
+    D.answered=false;
+    const q=DQ[D.order[D.qIdx]];
+    const p=D.players[D.curP];
+    const isChoice=(D.qIdx%2===0);
+
+    document.getElementById('dProgressFill').style.width=(D.qIdx/DQ.length*100)+'%';
+    document.getElementById('dPhaseBadge').innerHTML=isChoice
+        ?'<span class="phase-diktat">✏️ Wähle das richtig geschriebene Wort</span>'
+        :'<span class="phase-diktat">🔍 Richtig oder falsch geschrieben?</span>';
+    document.getElementById('dQNum').textContent=`Frage ${D.qIdx+1} / ${DQ.length}`;
+    document.getElementById('dQTag').textContent=`${p.emoji} ${p.name} ist dran`;
+    document.getElementById('dTurn').textContent=`▶ ${p.emoji} ${p.name} ist dran!`;
+    document.getElementById('dReveal').style.display='none';
+    document.getElementById('dReveal').innerHTML='';
+
+    const parts=q.t.split('___');
+    if(isChoice){
+        document.getElementById('dQText').innerHTML=parts[0]+'<span class="blank" id="dBlank">_ _ _</span>'+(parts[1]||'');
+        const grid=document.getElementById('dOpts');
+        grid.innerHTML='';
+        shuffle(q.o).forEach(opt=>{
+            const b=document.createElement('button');
+            b.className='opt-btn';b.textContent=opt;
+            b.onclick=()=>dHandleChoice(opt,q.a,b);
+            grid.appendChild(b);
+        });
+        document.getElementById('dOpts').style.display='grid';
+        document.getElementById('dJudge').classList.add('hidden');
+    } else {
+        D.shownOk=Math.random()<.5;
+        D.shownWord=D.shownOk ? q.a : pick(q.o.filter(o=>o!==q.a));
+        document.getElementById('dQText').innerHTML=parts[0]+`<span class="shown-word" id="dShown">${D.shownWord}</span>`+(parts[1]||'');
+        document.getElementById('dOpts').style.display='none';
+        document.getElementById('dJudge').classList.remove('hidden');
+        document.getElementById('dBtnYes').disabled=false;
+        document.getElementById('dBtnNo').disabled=false;
+        document.getElementById('dBtnYes').className='jbtn yes';
+        document.getElementById('dBtnNo').className='jbtn no';
+    }
+    document.getElementById('dBtnNext').style.display='none';
+    setMod('dMod', pick(INTRO)(p.name), '');
+    // Update all cards
+    D.players.forEach((_,i)=>{ const c=document.getElementById('dPlayers-pc-'+i); if(c) c.className='player-card'+(i===D.curP?' active':'')+(D.players[i].eliminated?' eliminated':''); });
+}
+
+function dHandleChoice(sel, correct, btn){
+    if(D.answered)return; D.answered=true;
+    document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+    const blank=document.getElementById('dBlank');
+    if(sel===correct){
+        btn.classList.add('is-ok');
+        blank.textContent=sel; blank.className='blank ok';
+        setMod('dMod',pick(OK_COMMENTS),'ok');
+        showFlash('✅ RICHTIG!','cf'); spawnConfetti();
+    } else {
+        btn.classList.add('is-fail');
+        blank.textContent=sel+' ✗'; blank.className='blank fail';
+        document.querySelectorAll('.opt-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('is-rev');});
+        setMod('dMod',pick(W_COMMENTS),'fail');
+        showFlash('❌ FALSCH!','wf');
+        const elim=applyError('dPlayers',D.players,D.curP,D.curP);
+        if(elim&&D.players.filter(p=>!p.eliminated).length<=1){setTimeout(()=>dFinish(D.players[D.curP].name),1700);return;}
+    }
+    document.getElementById('dBtnNext').style.display='block';
+}
+
+function handleJudge(playerSaysOk){
+    if(D.answered)return; D.answered=true;
+    document.getElementById('dBtnYes').disabled=true;
+    document.getElementById('dBtnNo').disabled=true;
+    const q=DQ[D.order[D.qIdx]];
+    const right=(playerSaysOk===D.shownOk);
+    const btn=playerSaysOk?document.getElementById('dBtnYes'):document.getElementById('dBtnNo');
+    const span=document.getElementById('dShown');
+    span.className=D.shownOk?'shown-word rev-ok':'shown-word rev-fail';
+    if(right){
+        btn.classList.add('j-ok');
+        setMod('dMod',pick(OK_COMMENTS),'ok');
+        showFlash('✅ RICHTIG!','cf'); spawnConfetti();
+        if(!D.shownOk){const rv=document.getElementById('dReveal');rv.innerHTML=`✏️ Richtig:<span class="cw">${q.a}</span>`;rv.style.display='block';}
+    } else {
+        btn.classList.add('j-fail');
+        setMod('dMod',pick(W_COMMENTS),'fail');
+        showFlash('❌ FALSCH!','wf');
+        const rv=document.getElementById('dReveal');rv.innerHTML=`✏️ Richtig:<span class="cw">${q.a}</span>`;rv.style.display='block';
+        const elim=applyError('dPlayers',D.players,D.curP,D.curP);
+        if(elim&&D.players.filter(p=>!p.eliminated).length<=1){setTimeout(()=>dFinish(D.players[D.curP].name),1700);return;}
+    }
+    document.getElementById('dBtnNext').style.display='block';
+}
+
+function dNextTurn(){
+    D.curP=nextAlive(D.players,D.curP);
+    D.qIdx++;
+    dLoad();
+}
+
+function dFinish(loser){
+    document.getElementById('dQCard').style.display='none';
+    document.getElementById('dOpts').style.display='none';
+    document.getElementById('dJudge').classList.add('hidden');
+    document.getElementById('dBtnNext').style.display='none';
+    finishScreen('d',D.players,loser);
+}
+
+// ════════════════════════════════════════════════
+//  MATHE GAME
+// ════════════════════════════════════════════════
+function getPhase(rIdx){
+    if(rIdx<5) return PHASES[0];
+    if(rIdx<10) return PHASES[1];
+    return PHASES[2];
+}
+
+function genMath(phase){
+    const row=pick(phase.rows);
+    const num=Math.floor(Math.random()*10)+1;
+    const [a,b]=Math.random()<.5?[row,num]:[num,row];
+    return {a,b,result:row*num};
+}
+
+function startMathe(){
+    M={
+        players: makePlayers(),
+        roundIdx: 0,
+        curP: 0,
+        answered: false,
+        curQ: null,
+    };
+    show('matheScreen');
+    document.getElementById('mGameOver').style.display='none';
+    document.getElementById('mEqCard').style.display='block';
+    document.getElementById('numpad').style.display='grid';
+    document.getElementById('mBtnNext').style.display='none';
+    setNumpadEnabled(true);
+    renderPlayerCards('mPlayers', M.players, M.curP);
+    mLoad();
+}
+
+function mLoad(){
+    if(M.roundIdx>=TOTAL_MATH){mFinish(null);return;}
+    M.answered=false;
+    const phase=getPhase(M.roundIdx);
+    M.curQ=genMath(phase);
+    const p=M.players[M.curP];
+
+    document.getElementById('mProgressFill').style.width=(M.roundIdx/TOTAL_MATH*100)+'%';
+    document.getElementById('mPhaseBadge').innerHTML=`<span class="phase-mathe">🔢 ${phase.label}</span>`;
+    document.getElementById('mEqPhase').textContent=`Runde ${M.roundIdx+1} von ${TOTAL_MATH}`;
+    document.getElementById('mTurn').textContent=`▶ ${p.emoji} ${p.name} ist dran!`;
+    document.getElementById('mFactorA').textContent=M.curQ.a;
+    document.getElementById('mFactorB').textContent=M.curQ.b;
+    const inp=document.getElementById('matheInput');
+    inp.value=''; inp.className=''; inp.placeholder='?';
+    inp.disabled=false; inp.focus();
+    document.getElementById('mReveal').style.display='none';
+    document.getElementById('mBtnNext').style.display='none';
+    setNumpadEnabled(true);
+    setMod('mMod',pick(INTRO)(p.name),'');
+    M.players.forEach((_,i)=>{const c=document.getElementById('mPlayers-pc-'+i);if(c)c.className='player-card'+(i===M.curP?' active':'')+(M.players[i].eliminated?' eliminated':'');});
+}
+
+function np(d){
+    const inp=document.getElementById('matheInput');
+    if(M.answered||inp.disabled)return;
+    if(inp.value.length<3) inp.value+=d;
+    inp.focus();
+}
+
+function npDel(){
+    const inp=document.getElementById('matheInput');
+    if(M.answered||inp.disabled)return;
+    inp.value=inp.value.slice(0,-1);
+    inp.focus();
+}
+
+function setNumpadEnabled(on){
+    document.querySelectorAll('.np-btn').forEach(b=>b.disabled=!on);
+}
+
+function submitMath(){
+    if(M.answered)return;
+    const inp=document.getElementById('matheInput');
+    const val=parseInt(inp.value,10);
+    if(isNaN(val)||inp.value.trim()==='')return;
+    M.answered=true;
+    inp.disabled=true;
+    setNumpadEnabled(false);
+    const correct=M.curQ.result;
+    if(val===correct){
+        inp.className='correct';
+        setMod('mMod',pick(M_OK_COMMENTS),'ok');
+        showFlash('✅ RICHTIG!','cf'); spawnConfetti();
+    } else {
+        inp.className='wrong';
+        const rv=document.getElementById('mReveal');
+        rv.textContent=`✏️ Richtig: ${M.curQ.a} × ${M.curQ.b} = ${correct}`;
+        rv.style.display='block';
+        setMod('mMod',pick(M_W_COMMENTS),'fail');
+        showFlash('❌ FALSCH!','wf');
+        const elim=applyError('mPlayers',M.players,M.curP,M.curP);
+        if(elim&&M.players.filter(p=>!p.eliminated).length<=1){setTimeout(()=>mFinish(M.players[M.curP].name),1700);return;}
+    }
+    document.getElementById('mBtnNext').style.display='block';
+}
+
+function mNextTurn(){
+    M.curP=nextAlive(M.players,M.curP);
+    M.roundIdx++;
+    mLoad();
+}
+
+function mFinish(loser){
+    document.getElementById('mEqCard').style.display='none';
+    document.getElementById('numpad').style.display='none';
+    document.getElementById('mBtnNext').style.display='none';
+    finishScreen('m',M.players,loser);
+}
+
+// ════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════
+function setMod(id,text,cls){
+    const e=document.getElementById(id);
+    e.textContent=text; e.className='mod-text'+(cls?' '+cls:'');
+}
+
+// ════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════
 buildStars();
-renderSetup();
+renderPlayers();
 </script>
 </body>
 </html>
